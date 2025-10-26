@@ -6,4 +6,9 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
+  <ItemGroup>
+    <Folder Include="Api\Input\" />
+    <Folder Include="Api\Output\" />
+  </ItemGroup>
+
 </Project>
