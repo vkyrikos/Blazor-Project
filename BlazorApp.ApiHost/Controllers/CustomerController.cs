@@ -13,7 +13,6 @@ public sealed class CustomerController : ControllerBase
 {
     [HttpGet]
     [Route("heartbeat")]
-    [SwaggerResponse((int)HttpStatusCode.OK, Type = typeof(string))]
     public IActionResult Heartbeat()
     {
         return Ok("heartbeat");
@@ -21,7 +20,6 @@ public sealed class CustomerController : ControllerBase
 
     [HttpGet]
     [Route(RouteConstants.V1.GetCustomer)]
-    [SwaggerResponse((int)HttpStatusCode.OK, Type = typeof(CustomerDto))]
     public IActionResult GetCustomer(GetCustomerRequest request)
     {
         return Ok(new CustomerDto

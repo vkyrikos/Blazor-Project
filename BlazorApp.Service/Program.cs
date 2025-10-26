@@ -12,11 +12,12 @@ internal class Program
             .AddHostedService<Service>()
             .RegisterServiceDependencies();
 
-        appBuilder.Services.AddControllers();
-
-        // Need to add request filter.
-
         var app = appBuilder.Build();
+
+        app.UseHttpsRedirection();
+        app.UseRouting();
+        app.MapControllers();
+
 
         app.Run();
     }
