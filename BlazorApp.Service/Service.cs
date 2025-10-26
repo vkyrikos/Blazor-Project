@@ -3,7 +3,7 @@ using Microsoft.Extensions.Logging;
 
 namespace BlazorApp.Service;
 
-public sealed class Service(ILogger logger) : IHostedService
+public sealed class Service(ILogger<Service> logger) : IHostedService
 {
     public Task StartAsync(CancellationToken cancellationToken)
     {

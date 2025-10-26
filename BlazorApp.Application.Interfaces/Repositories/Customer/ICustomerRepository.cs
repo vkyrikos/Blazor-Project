@@ -1,4 +1,4 @@
-﻿namespace BlazorApp.Application.Interfaces.Repositories;
+﻿namespace BlazorApp.Application.Interfaces.Repositories.Customer;
 
 public interface ICustomerRepository
 {

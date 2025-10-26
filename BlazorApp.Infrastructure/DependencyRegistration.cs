@@ -1,4 +1,4 @@
-﻿using BlazorApp.Application.Interfaces.Repositories;
+﻿using BlazorApp.Application.Interfaces.Repositories.Customer;
 using BlazorApp.Infrastructure.Repositories;
 using Microsoft.Extensions.DependencyInjection;
 

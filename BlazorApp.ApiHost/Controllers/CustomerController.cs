@@ -4,15 +4,15 @@ using BlazorApp.Contracts.Api.Output;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Routing;
 using Swashbuckle.AspNetCore.Annotations;
-using System.Globalization;
 using System.Net;
 
 namespace BlazorApp.ApiHost.Controllers;
 
+[ApiController]
 public sealed class CustomerController : ControllerBase
 {
     [HttpGet]
-    [Route(RouteConstants.V1.Heartbeat)]
+    [Route("heartbeat")]
     [SwaggerResponse((int)HttpStatusCode.OK, Type = typeof(string))]
     public IActionResult Heartbeat()
     {

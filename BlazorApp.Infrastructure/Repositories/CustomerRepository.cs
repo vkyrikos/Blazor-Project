@@ -1,4 +1,4 @@
-﻿using BlazorApp.Application.Interfaces.Repositories;
+﻿using BlazorApp.Application.Interfaces.Repositories.Customer;
 using BlazorApp.Domain.Models;
 using BlazorApp.Infrastructure.Database.Context;
 using Microsoft.EntityFrameworkCore;
@@ -19,8 +19,10 @@ public class CustomerRepository : ICustomerRepository
         throw new NotImplementedException();
     }
 
-    public Task InsertCustomerAsync(Customer customer, CancellationToken cancellationToken)
+    public async Task InsertCustomerAsync(Customer customer, CancellationToken cancellationToken)
     {
-        throw new NotImplementedException();
+        _context.Add(customer);
+
+        await _context.SaveChangesAsync(cancellationToken);
     }
 }
