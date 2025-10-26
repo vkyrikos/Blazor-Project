@@ -1,5 +1,8 @@
 using BlazorApp.Components;
 using BlazorApp.Data;
+using BlazorApp.Infrastructure;
+using BlazorApp.Infrastructure.Database.Context;
+using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -7,6 +10,12 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddRazorComponents()
     .AddInteractiveServerComponents()
     .AddInteractiveWebAssemblyComponents();
+
+builder.Services.AddDbContextFactory<AssignmentDbContext>(options => 
+options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"),
+sql => sql.EnableRetryOnFailure()));
+
+builder.Services.RegisterInfrastructureDependencies();
 
 builder.Services.AddSingleton<WeatherForecastService>();
 
