@@ -1,0 +1,37 @@
+﻿@page "/customers/new"
+
+@using BlazorApp.Domain.Models
+
+<PageTitle>Add New Customer</PageTitle>
+
+<div class="row justify-content-center">
+    <div class="col-6">
+        <EditForm Enhance="true" FormName="AddCustomerForm" OnValidSubmit="AddCustomerAsync" Model="Customer">
+            <h3>
+                Add New Customer
+            </h3>
+            <div class="mb-3">
+                <label for="Id" class="form-label">
+                    Customer Id
+                </label>
+                <InputText id="id" @bind-value="Customer.Id" class="form-control"/>
+            </div>
+
+            <div class="mb-3">
+                <button class="btn btn-primary shadow-none">
+                    Save
+                </button>
+            </div>
+        </EditForm>
+    </div>
+</div>
+
+@code{
+    [SupplyParameterFromForm]
+    private Customer Customer { get; set; } = new();
+
+    private async Task AddCustomerAsync()
+    {
+        
+    }
+}

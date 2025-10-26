@@ -18,6 +18,7 @@ sql => sql.EnableRetryOnFailure()));
 builder.Services.RegisterInfrastructureDependencies();
 
 builder.Services.AddSingleton<WeatherForecastService>();
+builder.Services.AddHttpClient();
 
 var app = builder.Build();
 
