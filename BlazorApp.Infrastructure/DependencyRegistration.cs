@@ -1,5 +1,13 @@
-﻿namespace BlazorApp.Infrastructure;
+﻿using BlazorApp.Application.Interfaces.Repositories;
+using BlazorApp.Infrastructure.Repositories;
+using Microsoft.Extensions.DependencyInjection;
 
-internal class DependencyRegistration
+namespace BlazorApp.Infrastructure;
+
+public static class DependencyRegistration
 {
+    public static void RegisterInfrastructureDependencies(this IServiceCollection services)
+    {
+        services.AddSingleton<ICustomerRepository, CustomerRepository>();
+    }
 }

@@ -1,8 +1,10 @@
 {
   "version": 2,
-  "dgSpecHash": "LCaT6J7xxGs=",
+  "dgSpecHash": "96IzS3GV4SY=",
   "success": true,
   "projectFilePath": "C:\\Users\\panwl\\Documents\\GitHub\\Blazor-Project\\BlazorApp.Application\\BlazorApp.Application.csproj",
-  "expectedPackageFiles": [],
+  "expectedPackageFiles": [
+    "C:\\Users\\panwl\\.nuget\\packages\\microsoft.extensions.dependencyinjection.abstractions\\8.0.2\\microsoft.extensions.dependencyinjection.abstractions.8.0.2.nupkg.sha512"
+  ],
   "logs": []
 }

@@ -1,5 +1,11 @@
-﻿namespace BlazorApp.Application;
+﻿using Microsoft.Extensions.DependencyInjection;
 
-internal class DependencyRegistration
+namespace BlazorApp.Application;
+
+public static class DependencyRegistration
 {
+    public static void RegisterApplicationDependencies(IServiceCollection services)
+    {
+
+    }
 }

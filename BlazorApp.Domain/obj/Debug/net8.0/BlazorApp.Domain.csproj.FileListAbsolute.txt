@@ -1,0 +1,12 @@
+C:\Users\panwl\Documents\GitHub\Blazor-Project\BlazorApp.Domain\bin\Debug\net8.0\BlazorApp.Domain.deps.json
+C:\Users\panwl\Documents\GitHub\Blazor-Project\BlazorApp.Domain\bin\Debug\net8.0\BlazorApp.Domain.dll
+C:\Users\panwl\Documents\GitHub\Blazor-Project\BlazorApp.Domain\bin\Debug\net8.0\BlazorApp.Domain.pdb
+C:\Users\panwl\Documents\GitHub\Blazor-Project\BlazorApp.Domain\obj\Debug\net8.0\BlazorApp.Domain.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\panwl\Documents\GitHub\Blazor-Project\BlazorApp.Domain\obj\Debug\net8.0\BlazorApp.Domain.AssemblyInfoInputs.cache
+C:\Users\panwl\Documents\GitHub\Blazor-Project\BlazorApp.Domain\obj\Debug\net8.0\BlazorApp.Domain.AssemblyInfo.cs
+C:\Users\panwl\Documents\GitHub\Blazor-Project\BlazorApp.Domain\obj\Debug\net8.0\BlazorApp.Domain.csproj.CoreCompileInputs.cache
+C:\Users\panwl\Documents\GitHub\Blazor-Project\BlazorApp.Domain\obj\Debug\net8.0\BlazorApp.Domain.sourcelink.json
+C:\Users\panwl\Documents\GitHub\Blazor-Project\BlazorApp.Domain\obj\Debug\net8.0\BlazorApp.Domain.dll
+C:\Users\panwl\Documents\GitHub\Blazor-Project\BlazorApp.Domain\obj\Debug\net8.0\refint\BlazorApp.Domain.dll
+C:\Users\panwl\Documents\GitHub\Blazor-Project\BlazorApp.Domain\obj\Debug\net8.0\BlazorApp.Domain.pdb
+C:\Users\panwl\Documents\GitHub\Blazor-Project\BlazorApp.Domain\obj\Debug\net8.0\ref\BlazorApp.Domain.dll

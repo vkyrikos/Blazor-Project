@@ -1,4 +1,4 @@
-﻿using BlazorApp.Application.Interfaces.Customer;
+﻿using BlazorApp.Application.Interfaces.Customer.Service;
 
 namespace BlazorApp.Application.Customer;
 

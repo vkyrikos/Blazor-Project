@@ -1,0 +1,16 @@
+C:\Users\panwl\Documents\GitHub\Blazor-Project\BlazorApp.Application.Interfaces\bin\Debug\net8.0\BlazorApp.Application.Interfaces.deps.json
+C:\Users\panwl\Documents\GitHub\Blazor-Project\BlazorApp.Application.Interfaces\bin\Debug\net8.0\BlazorApp.Application.Interfaces.dll
+C:\Users\panwl\Documents\GitHub\Blazor-Project\BlazorApp.Application.Interfaces\bin\Debug\net8.0\BlazorApp.Application.Interfaces.pdb
+C:\Users\panwl\Documents\GitHub\Blazor-Project\BlazorApp.Application.Interfaces\bin\Debug\net8.0\BlazorApp.Domain.dll
+C:\Users\panwl\Documents\GitHub\Blazor-Project\BlazorApp.Application.Interfaces\bin\Debug\net8.0\BlazorApp.Domain.pdb
+C:\Users\panwl\Documents\GitHub\Blazor-Project\BlazorApp.Application.Interfaces\obj\Debug\net8.0\BlazorApp.Application.Interfaces.csproj.AssemblyReference.cache
+C:\Users\panwl\Documents\GitHub\Blazor-Project\BlazorApp.Application.Interfaces\obj\Debug\net8.0\BlazorApp.Application.Interfaces.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\panwl\Documents\GitHub\Blazor-Project\BlazorApp.Application.Interfaces\obj\Debug\net8.0\BlazorApp.Application.Interfaces.AssemblyInfoInputs.cache
+C:\Users\panwl\Documents\GitHub\Blazor-Project\BlazorApp.Application.Interfaces\obj\Debug\net8.0\BlazorApp.Application.Interfaces.AssemblyInfo.cs
+C:\Users\panwl\Documents\GitHub\Blazor-Project\BlazorApp.Application.Interfaces\obj\Debug\net8.0\BlazorApp.Application.Interfaces.csproj.CoreCompileInputs.cache
+C:\Users\panwl\Documents\GitHub\Blazor-Project\BlazorApp.Application.Interfaces\obj\Debug\net8.0\BlazorApp.Application.Interfaces.sourcelink.json
+C:\Users\panwl\Documents\GitHub\Blazor-Project\BlazorApp.Application.Interfaces\obj\Debug\net8.0\BlazorAp.94F0D8C6.Up2Date
+C:\Users\panwl\Documents\GitHub\Blazor-Project\BlazorApp.Application.Interfaces\obj\Debug\net8.0\BlazorApp.Application.Interfaces.dll
+C:\Users\panwl\Documents\GitHub\Blazor-Project\BlazorApp.Application.Interfaces\obj\Debug\net8.0\refint\BlazorApp.Application.Interfaces.dll
+C:\Users\panwl\Documents\GitHub\Blazor-Project\BlazorApp.Application.Interfaces\obj\Debug\net8.0\BlazorApp.Application.Interfaces.pdb
+C:\Users\panwl\Documents\GitHub\Blazor-Project\BlazorApp.Application.Interfaces\obj\Debug\net8.0\ref\BlazorApp.Application.Interfaces.dll

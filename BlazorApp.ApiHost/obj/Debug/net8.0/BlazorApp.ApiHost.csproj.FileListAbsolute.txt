@@ -1,0 +1,16 @@
+C:\Users\panwl\Documents\GitHub\Blazor-Project\BlazorApp.ApiHost\bin\Debug\net8.0\BlazorApp.ApiHost.deps.json
+C:\Users\panwl\Documents\GitHub\Blazor-Project\BlazorApp.ApiHost\bin\Debug\net8.0\BlazorApp.ApiHost.dll
+C:\Users\panwl\Documents\GitHub\Blazor-Project\BlazorApp.ApiHost\bin\Debug\net8.0\BlazorApp.ApiHost.pdb
+C:\Users\panwl\Documents\GitHub\Blazor-Project\BlazorApp.ApiHost\bin\Debug\net8.0\BlazorApp.Contracts.dll
+C:\Users\panwl\Documents\GitHub\Blazor-Project\BlazorApp.ApiHost\bin\Debug\net8.0\BlazorApp.Contracts.pdb
+C:\Users\panwl\Documents\GitHub\Blazor-Project\BlazorApp.ApiHost\obj\Debug\net8.0\BlazorApp.ApiHost.csproj.AssemblyReference.cache
+C:\Users\panwl\Documents\GitHub\Blazor-Project\BlazorApp.ApiHost\obj\Debug\net8.0\BlazorApp.ApiHost.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\panwl\Documents\GitHub\Blazor-Project\BlazorApp.ApiHost\obj\Debug\net8.0\BlazorApp.ApiHost.AssemblyInfoInputs.cache
+C:\Users\panwl\Documents\GitHub\Blazor-Project\BlazorApp.ApiHost\obj\Debug\net8.0\BlazorApp.ApiHost.AssemblyInfo.cs
+C:\Users\panwl\Documents\GitHub\Blazor-Project\BlazorApp.ApiHost\obj\Debug\net8.0\BlazorApp.ApiHost.csproj.CoreCompileInputs.cache
+C:\Users\panwl\Documents\GitHub\Blazor-Project\BlazorApp.ApiHost\obj\Debug\net8.0\BlazorApp.ApiHost.sourcelink.json
+C:\Users\panwl\Documents\GitHub\Blazor-Project\BlazorApp.ApiHost\obj\Debug\net8.0\BlazorAp.0DD00A67.Up2Date
+C:\Users\panwl\Documents\GitHub\Blazor-Project\BlazorApp.ApiHost\obj\Debug\net8.0\BlazorApp.ApiHost.dll
+C:\Users\panwl\Documents\GitHub\Blazor-Project\BlazorApp.ApiHost\obj\Debug\net8.0\refint\BlazorApp.ApiHost.dll
+C:\Users\panwl\Documents\GitHub\Blazor-Project\BlazorApp.ApiHost\obj\Debug\net8.0\BlazorApp.ApiHost.pdb
+C:\Users\panwl\Documents\GitHub\Blazor-Project\BlazorApp.ApiHost\obj\Debug\net8.0\ref\BlazorApp.ApiHost.dll
