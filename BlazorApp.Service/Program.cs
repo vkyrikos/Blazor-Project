@@ -18,7 +18,6 @@ internal class Program
         app.UseRouting();
         app.MapControllers();
 
-
         app.Run();
     }
 }

@@ -33,6 +33,9 @@
           "net8.0": {
             "targetAlias": "net8.0",
             "projectReferences": {
+              "C:\\Users\\panwl\\Documents\\GitHub\\Blazor-Project\\BlazorApp.Application.Interfaces\\BlazorApp.Application.Interfaces.csproj": {
+                "projectPath": "C:\\Users\\panwl\\Documents\\GitHub\\Blazor-Project\\BlazorApp.Application.Interfaces\\BlazorApp.Application.Interfaces.csproj"
+              },
               "C:\\Users\\panwl\\Documents\\GitHub\\Blazor-Project\\BlazorApp.Contracts\\BlazorApp.Contracts.csproj": {
                 "projectPath": "C:\\Users\\panwl\\Documents\\GitHub\\Blazor-Project\\BlazorApp.Contracts\\BlazorApp.Contracts.csproj"
               }
