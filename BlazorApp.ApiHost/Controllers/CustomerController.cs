@@ -22,7 +22,7 @@ public sealed class CustomerController(ICustomerService customerService) : Contr
     [Route(RouteConstants.V1.GetCustomer)]
     public async Task<IActionResult> GetCustomerAsync(GetCustomerRequest request)
     {
-        var result = await customerService.GetCustomerAsync(request.Id, new CancellationToken());
+        var result = await customerService.GetCustomerAsync(request.Id);
 
         return Ok(new CustomerDto
         {
@@ -34,9 +34,10 @@ public sealed class CustomerController(ICustomerService customerService) : Contr
     [Route(RouteConstants.V1.UpsertCustomer)]
     public async Task<IActionResult> UpsertCustomerAsync(UpsertCustomerRequest request)
     {
-        await customerService.UpsertCustomerAsync(request.);
+        //TODO: Add upsert service method.
+        //await customerService.UpsertCustomerAsync();
 
-        return Ok("");
+        return Ok("upserted");
     }
 
     [HttpPost]
@@ -44,5 +45,7 @@ public sealed class CustomerController(ICustomerService customerService) : Contr
     public async Task<IActionResult> DeleteCustomerAsync([FromRoute]string id)
     {
         await customerService.DeleteCustomerAsync(id);
+
+        return Ok("deleted");
     }
 }

@@ -15,14 +15,14 @@ public class CustomerRepository : ICustomerRepository
         _context = factory.CreateDbContext();
     }
 
-    public async Task InsertCustomerAsync(Customer customer, CancellationToken cancellationToken)
+    public async Task InsertCustomerAsync(Customer customer, CancellationToken cancellationToken = default)
     {
         _context.Add(customer);
 
         await _context.SaveChangesAsync(cancellationToken);
     }
     
-    public async Task UpdateCustomerAsync(string customerId, Customer customer, CancellationToken cancellationToken)
+    public async Task UpdateCustomerAsync(string customerId, Customer customer, CancellationToken cancellationToken = default)
     {
         customer.UpdatedAt = DateTime.UtcNow;
 
@@ -31,7 +31,7 @@ public class CustomerRepository : ICustomerRepository
         await _context.SaveChangesAsync(cancellationToken);
     }
 
-    public Task<Customer?> GetCustomerAsync(string customerId, CancellationToken cancellationToken)
+    public Task<Customer?> GetCustomerAsync(string customerId, CancellationToken cancellationToken = default)
     {
         if (string.IsNullOrWhiteSpace(customerId))
         {
@@ -43,7 +43,7 @@ public class CustomerRepository : ICustomerRepository
                        .SingleOrDefaultAsync(c => c.Id == customerId, cancellationToken);
     }
 
-    public Task<List<Customer>> GetCustomersAsync(int pageId, CancellationToken cancellationToken)
+    public Task<List<Customer>> GetCustomersAsync(int pageId, CancellationToken cancellationToken = default)
     {
         if (pageId < 1)
         { 
@@ -58,7 +58,7 @@ public class CustomerRepository : ICustomerRepository
                        .ToListAsync(cancellationToken);
     }
 
-    public async Task DeleteCustomerAsync(string customerId, CancellationToken cancellationToken)
+    public async Task DeleteCustomerAsync(string customerId, CancellationToken cancellationToken = default)
     {
         if (string.IsNullOrWhiteSpace(customerId))
         {

@@ -5,7 +5,7 @@ namespace BlazorApp.Application.Services.Customer;
 
 internal class CustomerSevice(ICustomerRepository customerRepo) : ICustomerService
 {
-    public async Task UpsertCustomerAsync(Domain.Models.Customer customer, CancellationToken cancellationToken)
+    public async Task UpsertCustomerAsync(Domain.Models.Customer customer, CancellationToken cancellationToken = default)
     {
         if (customer is null)
         {
@@ -22,7 +22,7 @@ internal class CustomerSevice(ICustomerRepository customerRepo) : ICustomerServi
         await customerRepo.UpdateCustomerAsync(customer.Id, customer, cancellationToken);
     }
 
-    public async Task<Domain.Models.Customer> GetCustomerAsync(string customerId, CancellationToken cancellationToken)
+    public async Task<Domain.Models.Customer> GetCustomerAsync(string customerId, CancellationToken cancellationToken = default)
     {
         if (string.IsNullOrWhiteSpace(customerId))
         {
@@ -32,7 +32,7 @@ internal class CustomerSevice(ICustomerRepository customerRepo) : ICustomerServi
         return await customerRepo.GetCustomerAsync(customerId, cancellationToken);
     }
 
-    public Task<List<Domain.Models.Customer>> GetCustomersAsync(int pageNumber, CancellationToken cancellationToken)
+    public Task<List<Domain.Models.Customer>> GetCustomersAsync(int pageNumber, CancellationToken cancellationToken = default)
     {
         if (pageNumber <= 0)
         {
@@ -42,7 +42,7 @@ internal class CustomerSevice(ICustomerRepository customerRepo) : ICustomerServi
         return customerRepo.GetCustomersAsync(pageNumber, cancellationToken);
     }
 
-    public async Task DeleteCustomerAsync(string customerId, CancellationToken cancellationToken)
+    public async Task DeleteCustomerAsync(string customerId, CancellationToken cancellationToken = default)
     {
         if (string.IsNullOrWhiteSpace(customerId) || Convert.ToInt32(customerId) <= 0)
         {
