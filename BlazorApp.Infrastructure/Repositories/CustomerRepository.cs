@@ -1,5 +1,6 @@
 ﻿using BlazorApp.Application.Interfaces.Repositories.Customer;
 using BlazorApp.Domain.Models;
+using BlazorApp.Domain.Requests;
 using BlazorApp.Infrastructure.Database.Context;
 using Microsoft.EntityFrameworkCore;
 
@@ -53,19 +54,20 @@ public class CustomerRepository : ICustomerRepository
                        .SingleOrDefaultAsync(c => c.Id == customerId, cancellationToken);
     }
 
-    public async Task<List<Customer>> GetCustomersAsync(int pageId, CancellationToken cancellationToken = default)
+    public async Task<List<Customer>> GetCustomersAsync(GetCustomersRequestModel request, CancellationToken cancellationToken = default)
     {
-        if (pageId <= 0)
+        if (request.PageNumber <= 0)
         {
-            throw new ArgumentOutOfRangeException(nameof(pageId), "pageId must be >= 1.");
+            throw new ArgumentOutOfRangeException(nameof(request.PageNumber), "pageNumber must be >= 1.");
         }
 
         await using var db = await _factory.CreateDbContextAsync(cancellationToken);
 
         return await db.Customers
                        .AsNoTracking()
+                       .Where(w => w.IsDeleted == request.IsDeleted)
                        .OrderBy(c => c.Id)
-                       .Skip((pageId - 1) * PageSize)
+                       .Skip((request.PageNumber - 1) * PageSize)
                        .Take(PageSize)
                        .ToListAsync(cancellationToken);
     }
@@ -73,15 +75,17 @@ public class CustomerRepository : ICustomerRepository
     public async Task<int> DeleteCustomerAsync(int customerId, CancellationToken cancellationToken = default)
     {
         if (customerId <= 0)
-        {
-            throw new ArgumentException("Customer id is required.", nameof(customerId));
-        }
+            throw new ArgumentOutOfRangeException(nameof(customerId));
 
         await using var db = await _factory.CreateDbContextAsync(cancellationToken);
 
         var affected = await db.Customers
-                                     .Where(c => c.Id == customerId)
-                                     .ExecuteDeleteAsync(cancellationToken);
+            .Where(c => c.Id == customerId && !c.IsDeleted)
+            .ExecuteUpdateAsync(
+                s => s
+                    .SetProperty(c => c.IsDeleted, c => true)
+                    .SetProperty(c => c.UpdatedAt, c => DateTime.UtcNow),
+                cancellationToken);
 
         return affected;
     }

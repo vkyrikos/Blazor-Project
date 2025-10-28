@@ -14,5 +14,5 @@ public class Customer
     // Προσθήκη audit
     public DateTime CreatedAt { get; set; }
     public DateTime? UpdatedAt { get;set; }
-    public bool IsDelete { get; set; }
+    public bool IsDeleted { get; set; }
 }

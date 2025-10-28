@@ -4,12 +4,14 @@ using BlazorApp.Application.Interfaces.Repositories.Customer;
 using BlazorApp.Application.Interfaces.Services.Customer;
 using BlazorApp.Application.Validation;
 using BlazorApp.Domain;
-using System.Linq.Expressions;
+using BlazorApp.Domain.Requests;
+using Microsoft.Extensions.Caching.Memory;
+using Microsoft.Extensions.Logging;
 using DomainCustomer = BlazorApp.Domain.Models.Customer;
 
 namespace BlazorApp.Application.Services.Customer;
 
-internal class CustomerSevice(ICustomerRepository customerRepo) : ICustomerService
+internal class CustomerSevice(ILogger<CustomerSevice> logger,ICustomerRepository customerRepo) : ICustomerService
 {
     public async Task<IServiceResponse<int>> UpsertCustomerAsync(DomainCustomer customer, CancellationToken cancellationToken = default)
     {
@@ -21,7 +23,7 @@ internal class CustomerSevice(ICustomerRepository customerRepo) : ICustomerServi
 
         try
         {
-            if (customer.Id <= default(int))
+            if (customer.Id <= 0)
             {
                 var inserted = await customerRepo.InsertCustomerAsync(customer, cancellationToken);
                 return ServiceResponse<int>.Success(inserted);
@@ -37,6 +39,7 @@ internal class CustomerSevice(ICustomerRepository customerRepo) : ICustomerServi
         }
         catch (Exception ex)
         {
+            logger.LogError(ex, ex.Message);
             return ServiceResponse<int>.Failure(
                 new Error(ErrorCode.Generic, "Unexpected error while upserting customer."));
         }
@@ -44,7 +47,7 @@ internal class CustomerSevice(ICustomerRepository customerRepo) : ICustomerServi
 
     public async Task<IServiceResponse<DomainCustomer>> GetCustomerAsync(int customerId, CancellationToken cancellationToken = default)
     {
-        if (customerId <= default(int))
+        if (customerId <= 0)
         {
             return ServiceResponse<DomainCustomer>.Failure(
                 new Error(ErrorCode.Validation, "customerId is required."));
@@ -70,14 +73,15 @@ internal class CustomerSevice(ICustomerRepository customerRepo) : ICustomerServi
         }
         catch (Exception ex)
         {
+            logger.LogError(ex, ex.Message);
             return ServiceResponse<DomainCustomer>.Failure(
                 new Error(ErrorCode.Generic, "Unexpected error while fetching customer."));
         }
     }
 
-    public async Task<IServiceResponse<List<DomainCustomer>>> GetCustomersAsync(int pageNumber, CancellationToken cancellationToken = default)
+    public async Task<IServiceResponse<List<DomainCustomer>>> GetCustomersAsync(GetCustomersRequestModel request, CancellationToken cancellationToken = default)
     {
-        if (pageNumber <= default(int))
+        if (request.PageNumber <= 0)
         {
             return ServiceResponse<List<DomainCustomer>>.Failure(
                 new Error(ErrorCode.Validation, "Parameter pageNumber should be greater than 0"));
@@ -85,7 +89,7 @@ internal class CustomerSevice(ICustomerRepository customerRepo) : ICustomerServi
 
         try
         {
-            var result = await customerRepo.GetCustomersAsync(pageNumber, cancellationToken);
+            var result = await customerRepo.GetCustomersAsync(request, cancellationToken);
 
             return ServiceResponse<List<DomainCustomer>>.Success(result);
         }
@@ -95,6 +99,7 @@ internal class CustomerSevice(ICustomerRepository customerRepo) : ICustomerServi
         }
         catch (Exception ex)
         {
+            logger.LogError(ex, ex.Message);
             return ServiceResponse<List<DomainCustomer>>.Failure(
                 new Error(ErrorCode.Generic, $"Unexpected error while fetching customer.\nMessage: {ex.Message}"));
         }
@@ -102,28 +107,33 @@ internal class CustomerSevice(ICustomerRepository customerRepo) : ICustomerServi
 
     public async Task<IServiceResponse<int>> DeleteCustomerAsync(int customerId, CancellationToken cancellationToken = default)
     {
-        if (customerId <= default(int))
+        if (customerId <= 0)
         {
             return ServiceResponse<int>.Failure(
                 new Error(ErrorCode.Validation, "Parameter customerId should be greater than 0"));
         }
 
-        //try
-        //{
+        try
+        {
+            var affected = await customerRepo.DeleteCustomerAsync(customerId, cancellationToken);
 
-        //}
-        //catch (OperationCanceledException) when (cancellationToken.IsCancellationRequested)
-        //{
-        //    throw;
-        //}
-        //catch (Exception ex)
-        //{
+            if (affected == 0)
+            {
+                return ServiceResponse<int>.Failure(
+                new Error(ErrorCode.Deletion, $"The deletion of customer with Id has not "));
+            }
 
-        //    throw;
-        //}
+            return ServiceResponse<int>.Success(affected);
+        }
+        catch (OperationCanceledException) when (cancellationToken.IsCancellationRequested)
+        {
+            throw;
+        }
+        catch (Exception ex)
+        {
+            logger.LogError(ex, ex.Message);
+            throw;
+        }
 
-        var affected = await customerRepo.DeleteCustomerAsync(customerId, cancellationToken);
-
-        return ServiceResponse<int>.Success(affected);
     }
 }

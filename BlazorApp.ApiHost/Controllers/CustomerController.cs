@@ -5,6 +5,7 @@ using BlazorApp.Contracts.Api.Input;
 using BlazorApp.Contracts.Api.Output.Response;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Routing;
+using BlazorApp.Application.Mapping;
 
 namespace BlazorApp.ApiHost.Controllers;
 
@@ -34,10 +35,11 @@ public sealed class CustomerController(ICustomerService customerService) : Contr
     [Route(RouteConstants.V1.GetCustomers)]
     public async Task<IActionResult> GetCustomersAsync(GetCustomersRequest request, CancellationToken cancellation)
     {
-        var serviceResponse = await customerService.GetCustomersAsync(request.PageNumber, cancellation);
+        var serviceResponse = await customerService.GetCustomersAsync(request.ToDomainGetCustomersRequest(), cancellation);
 
-        //TODO: make a proper response.
-        return Ok();
+        return serviceResponse.Error is null
+            ? Ok(ResponseCreator.GetSuccessResponse(serviceResponse))
+            : BadRequest(ResponseCreator.GetFailureResponse(serviceResponse.Error.ToResponseResultDto()));
     }
 
     [HttpPost]

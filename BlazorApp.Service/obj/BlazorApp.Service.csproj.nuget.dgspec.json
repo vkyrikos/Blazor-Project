@@ -36,6 +36,9 @@
               "C:\\Users\\panwl\\Documents\\GitHub\\Blazor-Project\\BlazorApp.Application.Interfaces\\BlazorApp.Application.Interfaces.csproj": {
                 "projectPath": "C:\\Users\\panwl\\Documents\\GitHub\\Blazor-Project\\BlazorApp.Application.Interfaces\\BlazorApp.Application.Interfaces.csproj"
               },
+              "C:\\Users\\panwl\\Documents\\GitHub\\Blazor-Project\\BlazorApp.Application\\BlazorApp.Application.csproj": {
+                "projectPath": "C:\\Users\\panwl\\Documents\\GitHub\\Blazor-Project\\BlazorApp.Application\\BlazorApp.Application.csproj"
+              },
               "C:\\Users\\panwl\\Documents\\GitHub\\Blazor-Project\\BlazorApp.Contracts\\BlazorApp.Contracts.csproj": {
                 "projectPath": "C:\\Users\\panwl\\Documents\\GitHub\\Blazor-Project\\BlazorApp.Contracts\\BlazorApp.Contracts.csproj"
               },
@@ -194,6 +197,9 @@
               },
               "C:\\Users\\panwl\\Documents\\GitHub\\Blazor-Project\\BlazorApp.Contracts\\BlazorApp.Contracts.csproj": {
                 "projectPath": "C:\\Users\\panwl\\Documents\\GitHub\\Blazor-Project\\BlazorApp.Contracts\\BlazorApp.Contracts.csproj"
+              },
+              "C:\\Users\\panwl\\Documents\\GitHub\\Blazor-Project\\BlazorApp.Domain\\BlazorApp.Domain.csproj": {
+                "projectPath": "C:\\Users\\panwl\\Documents\\GitHub\\Blazor-Project\\BlazorApp.Domain\\BlazorApp.Domain.csproj"
               },
               "C:\\Users\\panwl\\Documents\\GitHub\\Blazor-Project\\BlazorApp.Infrastructure\\BlazorApp.Infrastructure.csproj": {
                 "projectPath": "C:\\Users\\panwl\\Documents\\GitHub\\Blazor-Project\\BlazorApp.Infrastructure\\BlazorApp.Infrastructure.csproj"

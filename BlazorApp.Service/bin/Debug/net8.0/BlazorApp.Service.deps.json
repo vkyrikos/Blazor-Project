@@ -1212,6 +1212,7 @@
       },
       "BlazorApp.ApiHost/1.0.0": {
         "dependencies": {
+          "BlazorApp.Application": "1.0.0",
           "BlazorApp.Application.Interfaces": "1.0.0",
           "BlazorApp.Contracts": "1.0.0",
           "BlazorApp.Infrastructure": "1.0.0",
@@ -1229,6 +1230,7 @@
         "dependencies": {
           "BlazorApp.Application.Interfaces": "1.0.0",
           "BlazorApp.Contracts": "1.0.0",
+          "BlazorApp.Domain": "1.0.0",
           "BlazorApp.Infrastructure": "1.0.0",
           "Microsoft.Extensions.DependencyInjection.Abstractions": "9.0.10",
           "Microsoft.Extensions.Logging.Abstractions": "9.0.10"

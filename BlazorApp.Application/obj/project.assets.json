@@ -6153,6 +6153,7 @@
     "net8.0": [
       "BlazorApp.Application.Interfaces >= 1.0.0",
       "BlazorApp.Contracts >= 1.0.0",
+      "BlazorApp.Domain >= 1.0.0",
       "BlazorApp.Infrastructure >= 1.0.0",
       "Microsoft.Extensions.DependencyInjection.Abstractions >= 8.0.2",
       "Microsoft.Extensions.Logging.Abstractions >= 8.0.3"
@@ -6196,6 +6197,9 @@
             },
             "C:\\Users\\panwl\\Documents\\GitHub\\Blazor-Project\\BlazorApp.Contracts\\BlazorApp.Contracts.csproj": {
               "projectPath": "C:\\Users\\panwl\\Documents\\GitHub\\Blazor-Project\\BlazorApp.Contracts\\BlazorApp.Contracts.csproj"
+            },
+            "C:\\Users\\panwl\\Documents\\GitHub\\Blazor-Project\\BlazorApp.Domain\\BlazorApp.Domain.csproj": {
+              "projectPath": "C:\\Users\\panwl\\Documents\\GitHub\\Blazor-Project\\BlazorApp.Domain\\BlazorApp.Domain.csproj"
             },
             "C:\\Users\\panwl\\Documents\\GitHub\\Blazor-Project\\BlazorApp.Infrastructure\\BlazorApp.Infrastructure.csproj": {
               "projectPath": "C:\\Users\\panwl\\Documents\\GitHub\\Blazor-Project\\BlazorApp.Infrastructure\\BlazorApp.Infrastructure.csproj"
