@@ -38,6 +38,9 @@
               },
               "C:\\Users\\panwl\\Documents\\GitHub\\Blazor-Project\\BlazorApp.Contracts\\BlazorApp.Contracts.csproj": {
                 "projectPath": "C:\\Users\\panwl\\Documents\\GitHub\\Blazor-Project\\BlazorApp.Contracts\\BlazorApp.Contracts.csproj"
+              },
+              "C:\\Users\\panwl\\Documents\\GitHub\\Blazor-Project\\BlazorApp.Infrastructure\\BlazorApp.Infrastructure.csproj": {
+                "projectPath": "C:\\Users\\panwl\\Documents\\GitHub\\Blazor-Project\\BlazorApp.Infrastructure\\BlazorApp.Infrastructure.csproj"
               }
             }
           }
@@ -188,6 +191,9 @@
             "projectReferences": {
               "C:\\Users\\panwl\\Documents\\GitHub\\Blazor-Project\\BlazorApp.Application.Interfaces\\BlazorApp.Application.Interfaces.csproj": {
                 "projectPath": "C:\\Users\\panwl\\Documents\\GitHub\\Blazor-Project\\BlazorApp.Application.Interfaces\\BlazorApp.Application.Interfaces.csproj"
+              },
+              "C:\\Users\\panwl\\Documents\\GitHub\\Blazor-Project\\BlazorApp.Infrastructure\\BlazorApp.Infrastructure.csproj": {
+                "projectPath": "C:\\Users\\panwl\\Documents\\GitHub\\Blazor-Project\\BlazorApp.Infrastructure\\BlazorApp.Infrastructure.csproj"
               }
             }
           }
@@ -211,6 +217,10 @@
             "Microsoft.Extensions.DependencyInjection.Abstractions": {
               "target": "Package",
               "version": "[8.0.2, )"
+            },
+            "Microsoft.Extensions.Logging.Abstractions": {
+              "target": "Package",
+              "version": "[8.0.3, )"
             }
           },
           "imports": [
@@ -427,17 +437,17 @@
           "dependencies": {
             "Microsoft.EntityFrameworkCore": {
               "target": "Package",
-              "version": "[9.0.10, )"
+              "version": "[8.0.3, )"
             },
             "Microsoft.EntityFrameworkCore.SqlServer": {
               "target": "Package",
-              "version": "[9.0.10, )"
+              "version": "[8.0.3, )"
             },
             "Microsoft.EntityFrameworkCore.Tools": {
               "include": "Runtime, Build, Native, ContentFiles, Analyzers, BuildTransitive",
               "suppressParent": "All",
               "target": "Package",
-              "version": "[9.0.10, )"
+              "version": "[8.0.3, )"
             }
           },
           "imports": [

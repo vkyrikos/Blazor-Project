@@ -7,50 +7,58 @@ namespace BlazorApp.Infrastructure.Repositories;
 
 public class CustomerRepository : ICustomerRepository
 {
-    private readonly AssignmentDbContext _context;
+    private readonly IDbContextFactory<AssignmentDbContext> _factory;
     private const int PageSize = 10;
 
     public CustomerRepository(IDbContextFactory<AssignmentDbContext> factory)
     {
-        _context = factory.CreateDbContext();
+        _factory = factory;
     }
 
     public async Task InsertCustomerAsync(Customer customer, CancellationToken cancellationToken = default)
     {
-        _context.Add(customer);
+        var db = await _factory.CreateDbContextAsync(cancellationToken);
 
-        await _context.SaveChangesAsync(cancellationToken);
+        db.Add(customer);
+
+        await db.SaveChangesAsync(cancellationToken);
     }
     
     public async Task UpdateCustomerAsync(string customerId, Customer customer, CancellationToken cancellationToken = default)
     {
+        await using var db = await _factory.CreateDbContextAsync(cancellationToken);
+
         customer.UpdatedAt = DateTime.UtcNow;
 
-        _context.Update(customer);
+        db.Update(customer);
 
-        await _context.SaveChangesAsync(cancellationToken);
+        await db.SaveChangesAsync(cancellationToken);
     }
 
-    public Task<Customer?> GetCustomerAsync(string customerId, CancellationToken cancellationToken = default)
+    public async Task<Customer?> GetCustomerAsync(string customerId, CancellationToken cancellationToken = default)
     {
         if (string.IsNullOrWhiteSpace(customerId))
         {
             throw new ArgumentException("Customer id is required.", nameof(customerId));
         }
 
-        return _context.Customers
+        await using var db = await _factory.CreateDbContextAsync(cancellationToken);
+
+        return await db.Customers
                        .AsNoTracking()
                        .SingleOrDefaultAsync(c => c.Id == customerId, cancellationToken);
     }
 
-    public Task<List<Customer>> GetCustomersAsync(int pageId, CancellationToken cancellationToken = default)
+    public async Task<List<Customer>> GetCustomersAsync(int pageId, CancellationToken cancellationToken = default)
     {
         if (pageId < 1)
         { 
             throw new ArgumentOutOfRangeException(nameof(pageId), "pageId must be >= 1."); 
         }
 
-        return _context.Customers
+        await using var db = await _factory.CreateDbContextAsync(cancellationToken);
+
+        return await db.Customers
                        .AsNoTracking()
                        .OrderBy(c => c.Id)
                        .Skip((pageId - 1) * PageSize)
@@ -65,7 +73,9 @@ public class CustomerRepository : ICustomerRepository
             throw new ArgumentException("Customer id is required.", nameof(customerId));
         }
 
-        var affected = await _context.Customers
+        await using var db = await _factory.CreateDbContextAsync(cancellationToken);
+        
+        var affected = await db.Customers
                                      .Where(c => c.Id == customerId)
                                      .ExecuteDeleteAsync(cancellationToken);
 

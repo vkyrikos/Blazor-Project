@@ -10,7 +10,7 @@ internal class Program
 
         appBuilder.Services
             .AddHostedService<Service>()
-            .RegisterServiceDependencies();
+            .RegisterServiceDependencies(appBuilder.Configuration);
 
         var app = appBuilder.Build();
 

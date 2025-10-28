@@ -14,8 +14,6 @@ C:\Users\panwl\Documents\GitHub\Blazor-Project\BlazorApp.Service\bin\Debug\net8.
 C:\Users\panwl\Documents\GitHub\Blazor-Project\BlazorApp.Service\bin\Debug\net8.0\Microsoft.EntityFrameworkCore.Abstractions.dll
 C:\Users\panwl\Documents\GitHub\Blazor-Project\BlazorApp.Service\bin\Debug\net8.0\Microsoft.EntityFrameworkCore.Relational.dll
 C:\Users\panwl\Documents\GitHub\Blazor-Project\BlazorApp.Service\bin\Debug\net8.0\Microsoft.EntityFrameworkCore.SqlServer.dll
-C:\Users\panwl\Documents\GitHub\Blazor-Project\BlazorApp.Service\bin\Debug\net8.0\Microsoft.Extensions.Caching.Abstractions.dll
-C:\Users\panwl\Documents\GitHub\Blazor-Project\BlazorApp.Service\bin\Debug\net8.0\Microsoft.Extensions.Caching.Memory.dll
 C:\Users\panwl\Documents\GitHub\Blazor-Project\BlazorApp.Service\bin\Debug\net8.0\Microsoft.Extensions.Configuration.dll
 C:\Users\panwl\Documents\GitHub\Blazor-Project\BlazorApp.Service\bin\Debug\net8.0\Microsoft.Extensions.Configuration.Abstractions.dll
 C:\Users\panwl\Documents\GitHub\Blazor-Project\BlazorApp.Service\bin\Debug\net8.0\Microsoft.Extensions.Configuration.FileExtensions.dll
@@ -29,7 +27,6 @@ C:\Users\panwl\Documents\GitHub\Blazor-Project\BlazorApp.Service\bin\Debug\net8.
 C:\Users\panwl\Documents\GitHub\Blazor-Project\BlazorApp.Service\bin\Debug\net8.0\Microsoft.Extensions.FileProviders.Physical.dll
 C:\Users\panwl\Documents\GitHub\Blazor-Project\BlazorApp.Service\bin\Debug\net8.0\Microsoft.Extensions.FileSystemGlobbing.dll
 C:\Users\panwl\Documents\GitHub\Blazor-Project\BlazorApp.Service\bin\Debug\net8.0\Microsoft.Extensions.Hosting.Abstractions.dll
-C:\Users\panwl\Documents\GitHub\Blazor-Project\BlazorApp.Service\bin\Debug\net8.0\Microsoft.Extensions.Logging.dll
 C:\Users\panwl\Documents\GitHub\Blazor-Project\BlazorApp.Service\bin\Debug\net8.0\Microsoft.Extensions.Logging.Abstractions.dll
 C:\Users\panwl\Documents\GitHub\Blazor-Project\BlazorApp.Service\bin\Debug\net8.0\Microsoft.Extensions.ObjectPool.dll
 C:\Users\panwl\Documents\GitHub\Blazor-Project\BlazorApp.Service\bin\Debug\net8.0\Microsoft.Extensions.Options.dll
@@ -49,11 +46,9 @@ C:\Users\panwl\Documents\GitHub\Blazor-Project\BlazorApp.Service\bin\Debug\net8.
 C:\Users\panwl\Documents\GitHub\Blazor-Project\BlazorApp.Service\bin\Debug\net8.0\Swashbuckle.AspNetCore.Annotations.dll
 C:\Users\panwl\Documents\GitHub\Blazor-Project\BlazorApp.Service\bin\Debug\net8.0\Swashbuckle.AspNetCore.Swagger.dll
 C:\Users\panwl\Documents\GitHub\Blazor-Project\BlazorApp.Service\bin\Debug\net8.0\Swashbuckle.AspNetCore.SwaggerGen.dll
-C:\Users\panwl\Documents\GitHub\Blazor-Project\BlazorApp.Service\bin\Debug\net8.0\System.ClientModel.dll
 C:\Users\panwl\Documents\GitHub\Blazor-Project\BlazorApp.Service\bin\Debug\net8.0\System.Configuration.ConfigurationManager.dll
 C:\Users\panwl\Documents\GitHub\Blazor-Project\BlazorApp.Service\bin\Debug\net8.0\System.Diagnostics.DiagnosticSource.dll
 C:\Users\panwl\Documents\GitHub\Blazor-Project\BlazorApp.Service\bin\Debug\net8.0\System.Drawing.Common.dll
-C:\Users\panwl\Documents\GitHub\Blazor-Project\BlazorApp.Service\bin\Debug\net8.0\System.Formats.Asn1.dll
 C:\Users\panwl\Documents\GitHub\Blazor-Project\BlazorApp.Service\bin\Debug\net8.0\System.IdentityModel.Tokens.Jwt.dll
 C:\Users\panwl\Documents\GitHub\Blazor-Project\BlazorApp.Service\bin\Debug\net8.0\System.IO.Pipelines.dll
 C:\Users\panwl\Documents\GitHub\Blazor-Project\BlazorApp.Service\bin\Debug\net8.0\System.Memory.Data.dll

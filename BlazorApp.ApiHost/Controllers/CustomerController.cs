@@ -1,10 +1,9 @@
 ﻿using BlazorApp.ApiHost.Common;
 using BlazorApp.Application.Interfaces.Services.Customer;
 using BlazorApp.Contracts.Api.Input;
-using BlazorApp.Contracts.Api.Output;
+using BlazorApp.Contracts.Api.Output.Response;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Routing;
-using System.Threading.Tasks;
 
 namespace BlazorApp.ApiHost.Controllers;
 
@@ -22,12 +21,8 @@ public sealed class CustomerController(ICustomerService customerService) : Contr
     [Route(RouteConstants.V1.GetCustomer)]
     public async Task<IActionResult> GetCustomerAsync(GetCustomerRequest request)
     {
-        var result = await customerService.GetCustomerAsync(request.Id);
-
-        return Ok(new CustomerDto
-        {
-            Id = request.Id
-        });
+        var serviceResponse = await customerService.GetCustomerAsync(request.Id);
+        return HandleEndpointResponse(serviceResponse);
     }
 
     [HttpPost]
@@ -44,8 +39,15 @@ public sealed class CustomerController(ICustomerService customerService) : Contr
     [Route(RouteConstants.V1.DeleteCustomer)]
     public async Task<IActionResult> DeleteCustomerAsync([FromRoute]string id)
     {
-        await customerService.DeleteCustomerAsync(id);
+        //await customerService.DeleteCustomerAsync(id);
 
         return Ok("deleted");
+    }
+
+    private IActionResult HandleEndpointResponse(Application.Interfaces.Common.IServiceResponse<Domain.Models.Customer> serviceResponse)
+    {
+        return serviceResponse.Error is null ? Ok(ResponseCreator.GetSuccessResponse(serviceResponse)) :
+            serviceResponse.Error.Code == Domain.ErrorCode.NotFound ? NoContent()
+            : BadRequest(ResponseCreator.GetFailureResponse(serviceResponse.Error.ToResponseResultDto()));
     }
 }

@@ -8,10 +8,12 @@
 
   <ItemGroup>
     <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="8.0.2" />
+    <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="8.0.3" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\BlazorApp.Application.Interfaces\BlazorApp.Application.Interfaces.csproj" />
+    <ProjectReference Include="..\BlazorApp.Infrastructure\BlazorApp.Infrastructure.csproj" />
   </ItemGroup>
 
 </Project>
