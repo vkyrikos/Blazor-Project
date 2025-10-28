@@ -1,4 +1,5 @@
 ﻿using BlazorApp.ApiHost.Common;
+using BlazorApp.ApiHost.Mapping;
 using BlazorApp.Application.Interfaces.Services.Customer;
 using BlazorApp.Contracts.Api.Input;
 using BlazorApp.Contracts.Api.Output.Response;
@@ -19,35 +20,45 @@ public sealed class CustomerController(ICustomerService customerService) : Contr
 
     [HttpGet]
     [Route(RouteConstants.V1.GetCustomer)]
-    public async Task<IActionResult> GetCustomerAsync(GetCustomerRequest request)
+    public async Task<IActionResult> GetCustomerAsync(GetCustomerRequest request, CancellationToken cancellationToken)
     {
-        var serviceResponse = await customerService.GetCustomerAsync(request.Id);
-        return HandleEndpointResponse(serviceResponse);
+        var serviceResponse = await customerService.GetCustomerAsync(request.Id, cancellationToken);
+        return serviceResponse.Error is null
+            ? Ok(ResponseCreator.GetSuccessResponse(serviceResponse))
+            : serviceResponse.Error.Code == Domain.ErrorCode.NotFound
+                ? Ok(ResponseCreator.GetPartialSuccessResponse(serviceResponse.Model, serviceResponse.Error.ToResponseResultDto()))
+                : BadRequest(ResponseCreator.GetFailureResponse(serviceResponse.Error.ToResponseResultDto()));
+    }
+
+    [HttpGet]
+    [Route(RouteConstants.V1.GetCustomers)]
+    public async Task<IActionResult> GetCustomersAsync(GetCustomersRequest request, CancellationToken cancellation)
+    {
+        var serviceResponse = await customerService.GetCustomersAsync(request.PageNumber, cancellation);
+
+        //TODO: make a proper response.
+        return Ok();
     }
 
     [HttpPost]
     [Route(RouteConstants.V1.UpsertCustomer)]
-    public async Task<IActionResult> UpsertCustomerAsync(UpsertCustomerRequest request)
+    public async Task<IActionResult> UpsertCustomerAsync(UpsertCustomerRequest request, CancellationToken cancellationToken)
     {
-        //TODO: Add upsert service method.
-        //await customerService.UpsertCustomerAsync();
+        var serviceResponse = await customerService.UpsertCustomerAsync(request.ToDomainCustomer(), cancellationToken);
 
-        return Ok("upserted");
+        return serviceResponse.Error is null
+            ? Ok(ResponseCreator.GetSuccessResponse(serviceResponse))
+            : BadRequest(ResponseCreator.GetFailureResponse(serviceResponse.Error.ToResponseResultDto()));
     }
 
     [HttpPost]
     [Route(RouteConstants.V1.DeleteCustomer)]
-    public async Task<IActionResult> DeleteCustomerAsync([FromRoute]string id)
+    public async Task<IActionResult> DeleteCustomerAsync(DeleteCustomerRequest request, CancellationToken cancellationToken)
     {
-        //await customerService.DeleteCustomerAsync(id);
+        var serviceResponse = await customerService.DeleteCustomerAsync(request.Id, cancellationToken);
 
-        return Ok("deleted");
-    }
-
-    private IActionResult HandleEndpointResponse(Application.Interfaces.Common.IServiceResponse<Domain.Models.Customer> serviceResponse)
-    {
-        return serviceResponse.Error is null ? Ok(ResponseCreator.GetSuccessResponse(serviceResponse)) :
-            serviceResponse.Error.Code == Domain.ErrorCode.NotFound ? NoContent()
+        return serviceResponse.Error is null
+            ? Ok(ResponseCreator.GetSuccessResponse(serviceResponse))
             : BadRequest(ResponseCreator.GetFailureResponse(serviceResponse.Error.ToResponseResultDto()));
     }
 }

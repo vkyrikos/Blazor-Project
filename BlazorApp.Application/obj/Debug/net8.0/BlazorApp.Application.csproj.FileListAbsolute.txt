@@ -2,8 +2,12 @@ C:\Users\panwl\Documents\GitHub\Blazor-Project\BlazorApp.Application\bin\Debug\n
 C:\Users\panwl\Documents\GitHub\Blazor-Project\BlazorApp.Application\bin\Debug\net8.0\BlazorApp.Application.dll
 C:\Users\panwl\Documents\GitHub\Blazor-Project\BlazorApp.Application\bin\Debug\net8.0\BlazorApp.Application.pdb
 C:\Users\panwl\Documents\GitHub\Blazor-Project\BlazorApp.Application\bin\Debug\net8.0\BlazorApp.Application.Interfaces.dll
+C:\Users\panwl\Documents\GitHub\Blazor-Project\BlazorApp.Application\bin\Debug\net8.0\BlazorApp.Contracts.dll
 C:\Users\panwl\Documents\GitHub\Blazor-Project\BlazorApp.Application\bin\Debug\net8.0\BlazorApp.Domain.dll
+C:\Users\panwl\Documents\GitHub\Blazor-Project\BlazorApp.Application\bin\Debug\net8.0\BlazorApp.Infrastructure.dll
 C:\Users\panwl\Documents\GitHub\Blazor-Project\BlazorApp.Application\bin\Debug\net8.0\BlazorApp.Application.Interfaces.pdb
+C:\Users\panwl\Documents\GitHub\Blazor-Project\BlazorApp.Application\bin\Debug\net8.0\BlazorApp.Contracts.pdb
+C:\Users\panwl\Documents\GitHub\Blazor-Project\BlazorApp.Application\bin\Debug\net8.0\BlazorApp.Infrastructure.pdb
 C:\Users\panwl\Documents\GitHub\Blazor-Project\BlazorApp.Application\bin\Debug\net8.0\BlazorApp.Domain.pdb
 C:\Users\panwl\Documents\GitHub\Blazor-Project\BlazorApp.Application\obj\Debug\net8.0\BlazorApp.Application.csproj.AssemblyReference.cache
 C:\Users\panwl\Documents\GitHub\Blazor-Project\BlazorApp.Application\obj\Debug\net8.0\BlazorApp.Application.GeneratedMSBuildEditorConfig.editorconfig
@@ -16,5 +20,3 @@ C:\Users\panwl\Documents\GitHub\Blazor-Project\BlazorApp.Application\obj\Debug\n
 C:\Users\panwl\Documents\GitHub\Blazor-Project\BlazorApp.Application\obj\Debug\net8.0\refint\BlazorApp.Application.dll
 C:\Users\panwl\Documents\GitHub\Blazor-Project\BlazorApp.Application\obj\Debug\net8.0\BlazorApp.Application.pdb
 C:\Users\panwl\Documents\GitHub\Blazor-Project\BlazorApp.Application\obj\Debug\net8.0\ref\BlazorApp.Application.dll
-C:\Users\panwl\Documents\GitHub\Blazor-Project\BlazorApp.Application\bin\Debug\net8.0\BlazorApp.Infrastructure.dll
-C:\Users\panwl\Documents\GitHub\Blazor-Project\BlazorApp.Application\bin\Debug\net8.0\BlazorApp.Infrastructure.pdb

@@ -192,6 +192,9 @@
               "C:\\Users\\panwl\\Documents\\GitHub\\Blazor-Project\\BlazorApp.Application.Interfaces\\BlazorApp.Application.Interfaces.csproj": {
                 "projectPath": "C:\\Users\\panwl\\Documents\\GitHub\\Blazor-Project\\BlazorApp.Application.Interfaces\\BlazorApp.Application.Interfaces.csproj"
               },
+              "C:\\Users\\panwl\\Documents\\GitHub\\Blazor-Project\\BlazorApp.Contracts\\BlazorApp.Contracts.csproj": {
+                "projectPath": "C:\\Users\\panwl\\Documents\\GitHub\\Blazor-Project\\BlazorApp.Contracts\\BlazorApp.Contracts.csproj"
+              },
               "C:\\Users\\panwl\\Documents\\GitHub\\Blazor-Project\\BlazorApp.Infrastructure\\BlazorApp.Infrastructure.csproj": {
                 "projectPath": "C:\\Users\\panwl\\Documents\\GitHub\\Blazor-Project\\BlazorApp.Infrastructure\\BlazorApp.Infrastructure.csproj"
               }
@@ -530,6 +533,12 @@
         "net8.0": {
           "targetAlias": "net8.0",
           "dependencies": {
+            "Microsoft.EntityFrameworkCore.Design": {
+              "include": "Runtime, Build, Native, ContentFiles, Analyzers, BuildTransitive",
+              "suppressParent": "All",
+              "target": "Package",
+              "version": "[8.0.3, )"
+            },
             "Microsoft.Extensions.Configuration.Json": {
               "target": "Package",
               "version": "[9.0.10, )"

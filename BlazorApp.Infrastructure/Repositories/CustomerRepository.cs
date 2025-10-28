@@ -15,16 +15,18 @@ public class CustomerRepository : ICustomerRepository
         _factory = factory;
     }
 
-    public async Task InsertCustomerAsync(Customer customer, CancellationToken cancellationToken = default)
+    public async Task<int> InsertCustomerAsync(Customer customer, CancellationToken cancellationToken = default)
     {
-        var db = await _factory.CreateDbContextAsync(cancellationToken);
+        await using var db =  await _factory.CreateDbContextAsync(cancellationToken);
 
         db.Add(customer);
 
-        await db.SaveChangesAsync(cancellationToken);
+        var affected = await db.SaveChangesAsync(cancellationToken);
+
+        return affected;
     }
-    
-    public async Task UpdateCustomerAsync(string customerId, Customer customer, CancellationToken cancellationToken = default)
+
+    public async Task<int> UpdateCustomerAsync(int customerId, Customer customer, CancellationToken cancellationToken = default)
     {
         await using var db = await _factory.CreateDbContextAsync(cancellationToken);
 
@@ -32,14 +34,16 @@ public class CustomerRepository : ICustomerRepository
 
         db.Update(customer);
 
-        await db.SaveChangesAsync(cancellationToken);
+        var affected = await db.SaveChangesAsync(cancellationToken);
+
+        return affected;
     }
 
-    public async Task<Customer?> GetCustomerAsync(string customerId, CancellationToken cancellationToken = default)
+    public async Task<Customer?> GetCustomerAsync(int customerId, CancellationToken cancellationToken = default)
     {
-        if (string.IsNullOrWhiteSpace(customerId))
+        if (customerId <= 0)
         {
-            throw new ArgumentException("Customer id is required.", nameof(customerId));
+            throw new ArgumentException("Customer id should be greater or equal to 1.", nameof(customerId));
         }
 
         await using var db = await _factory.CreateDbContextAsync(cancellationToken);
@@ -51,9 +55,9 @@ public class CustomerRepository : ICustomerRepository
 
     public async Task<List<Customer>> GetCustomersAsync(int pageId, CancellationToken cancellationToken = default)
     {
-        if (pageId < 1)
-        { 
-            throw new ArgumentOutOfRangeException(nameof(pageId), "pageId must be >= 1."); 
+        if (pageId <= 0)
+        {
+            throw new ArgumentOutOfRangeException(nameof(pageId), "pageId must be >= 1.");
         }
 
         await using var db = await _factory.CreateDbContextAsync(cancellationToken);
@@ -66,22 +70,19 @@ public class CustomerRepository : ICustomerRepository
                        .ToListAsync(cancellationToken);
     }
 
-    public async Task DeleteCustomerAsync(string customerId, CancellationToken cancellationToken = default)
+    public async Task<int> DeleteCustomerAsync(int customerId, CancellationToken cancellationToken = default)
     {
-        if (string.IsNullOrWhiteSpace(customerId))
+        if (customerId <= 0)
         {
             throw new ArgumentException("Customer id is required.", nameof(customerId));
         }
 
         await using var db = await _factory.CreateDbContextAsync(cancellationToken);
-        
+
         var affected = await db.Customers
                                      .Where(c => c.Id == customerId)
                                      .ExecuteDeleteAsync(cancellationToken);
 
-        if (affected == 0)
-        {
-            throw new KeyNotFoundException($"Customer '{customerId}' was not found.");
-        }
+        return affected;
     }
 }

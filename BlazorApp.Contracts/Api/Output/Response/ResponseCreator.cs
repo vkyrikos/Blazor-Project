@@ -2,32 +2,23 @@
 
 public static class ResponseCreator
 {
-    public static ResponseDto<T> GetSuccessResponse<T>(T data) where T : class
+    public static ResponseDto<T> GetSuccessResponse<T>(T data) where T : class => new()
     {
-        return new()
-        {
-            ResponseCode = ResponseCodeDto.Success,
-            Data = data,
-            ResponseResult = new()
-        };
-    }
+        ResponseCode = ResponseCodeDto.Success,
+        Data = data,
+        ResponseResult = null
+    };
 
-    public static ResponseDto<T> GetPartialSuccessResponse<T>(T data, ResponseResultDto? responseResult) where T : class
+    public static ResponseDto<T> GetPartialSuccessResponse<T>(T data, ResponseResultDto? responseResult) where T : class => new()
     {
-        return new()
-        {
-            ResponseCode = ResponseCodeDto.PartialSuccess,
-            Data = data,
-            ResponseResult = responseResult ?? new()
-        };
-    }
+        ResponseCode = ResponseCodeDto.PartialSuccess,
+        Data = data,
+        ResponseResult = responseResult
+    };
 
-    public static ResponseDto GetFailureResponse(ResponseResultDto? responseResult)
+    public static ResponseDto GetFailureResponse(ResponseResultDto? responseResult) => new()
     {
-        return new()
-        {
-            ResponseCode = ResponseCodeDto.Failure,
-            ResponseResult = responseResult ?? new()
-        };
-    }
+        ResponseCode = ResponseCodeDto.Failure,
+        ResponseResult = responseResult
+    };
 }

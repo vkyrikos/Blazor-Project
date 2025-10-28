@@ -7,5 +7,5 @@ public record GetCustomerRequest
 {
     [FromRoute]
     [Required]
-    public string Id { get; init; }
+    public int Id { get; init; }
 }

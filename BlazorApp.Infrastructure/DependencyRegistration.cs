@@ -11,7 +11,7 @@ public static class DependencyRegistration
 {
     public static void RegisterInfrastructureDependencies(this IServiceCollection services, IConfiguration configuration)
     {
-        services.AddDbContextFactory<AssignmentDbContext>(options =>
+        services.AddPooledDbContextFactory<AssignmentDbContext>(options =>
             options.UseSqlServer(configuration.GetConnectionString("DefaultConnection"),
                 sql =>
                 {
