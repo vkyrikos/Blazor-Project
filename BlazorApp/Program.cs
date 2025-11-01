@@ -2,6 +2,7 @@ using BlazorApp.Application.Interfaces;
 using BlazorApp.Components;
 using BlazorApp.Infrastructure.ApiClients.Customer;
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
+using Polly;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -18,7 +19,11 @@ builder.Services.AddHttpClient<ICustomerApi, CustomerApi>(client =>
     client.BaseAddress = new Uri(apiBase);
     client.Timeout = TimeSpan.FromSeconds(30);
     client.DefaultRequestHeaders.UserAgent.ParseAdd("CustomersWasm/1.0");
-});
+})
+.AddPolicyHandler(Policy<HttpResponseMessage>
+    .Handle<HttpRequestException>()
+    .OrResult(r => (int)r.StatusCode == 429 || (int)r.StatusCode >= 500)
+    .WaitAndRetryAsync(5, i => TimeSpan.FromMilliseconds(100 * i)));
 
 var app = builder.Build();
 
