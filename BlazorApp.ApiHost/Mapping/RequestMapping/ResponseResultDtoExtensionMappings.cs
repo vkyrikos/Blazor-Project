@@ -2,7 +2,7 @@
 using BlazorApp.Contracts.Api.Output.Response;
 using BlazorApp.Domain;
 
-namespace BlazorApp.ApiHost.Mapping;
+namespace BlazorApp.ApiHost.Mapping.RequestMapping;
 
 internal static class ResponseResultDtoExtensionMappings
 {

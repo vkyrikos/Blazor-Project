@@ -1,1 +1,66 @@
-﻿
+﻿@rendermode InteractiveServer
+@page "/customers/new"
+@using System.Text.Json
+@using BlazorApp.Application.Interfaces
+@inject ICustomerApi Api
+
+<h3>Add Customer</h3>
+
+<EditForm Model="_model" OnValidSubmit="Save" FormName="add-customer">
+    <DataAnnotationsValidator />
+    <ValidationSummary />
+
+    <div><label>Contact</label> <InputText @bind-Value="_model.ContactName" @bind-Value:event="oninput" /></div>
+    <div><label>Country</label> <InputText @bind-Value="_model.Country" @bind-Value:event="oninput" /></div>
+    <div><label>Region</label> <InputText @bind-Value="_model.Region" @bind-Value:event="oninput" /></div>
+    <div><label>City</label> <InputText @bind-Value="_model.City" @bind-Value:event="oninput" /></div>
+    <div><label>Postal</label> <InputText @bind-Value="_model.PostalCode" @bind-Value:event="oninput" /></div>
+    <div><label>Address</label> <InputText @bind-Value="_model.Address" @bind-Value:event="oninput" /></div>
+    <div><label>Phone</label> <InputText @bind-Value="_model.Phone" @bind-Value:event="oninput" /></div>
+    <div><label>Company</label> <InputText @bind-Value="_model.CompanyName" @bind-Value:event="oninput" /></div>
+
+    <button type="submit">Save</button>
+</EditForm>
+
+<!-- Debug: shows live model contents -->
+<pre>@JsonSerializer.Serialize(_model)</pre>
+
+@if (!string.IsNullOrEmpty(_status))
+{
+    <p>@_status</p>
+}
+
+@code {
+    // Ensure this is the mutable model class (setters, not init-only)
+    private BlazorApp.Models.Customer _model = new();
+
+    private string? _status;
+
+    private async Task Save()
+    {
+        try
+        {
+            // Map to DTO if your API expects CustomerDto
+            var dto = new BlazorApp.Models.Customer
+            {
+                Id = _model.Id,
+                CompanyName = _model.CompanyName,
+                ContactName = _model.ContactName,
+                Address = _model.Address,
+                City = _model.City,
+                Region = _model.Region,
+                PostalCode = _model.PostalCode,
+                Country = _model.Country,
+                Phone = _model.Phone
+            };
+
+            var created = await Api.UpsertCustomerAsync(dto);
+            _status = $"Saved. New Id: {created.Id}";
+            _model = new(); // clear form
+        }
+        catch (Exception ex)
+        {
+            _status = $"Error: {ex.Message}";
+        }
+    }
+}

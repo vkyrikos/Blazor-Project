@@ -2,13 +2,16 @@
 
 public class CustomerDto
 {
-    public string? Id { get; set; }
-    public string? CompanyName { get; set; }
-    public string? ContactName { get; set; }
-    public string? Address { get; set; }
-    public string? City { get; set; }
-    public string? Region { get; set; }
-    public string? PostalCode { get; set; }
-    public string? Country { get; set; }
-    public string? Phone { get; set; }
+    public int Id { get; init; }
+    public string CompanyName { get; init; }
+    public string ContactName { get; init; }
+    public string Address { get; init; }
+    public string City { get; init; }
+    public string Region { get; init; }
+    public string PostalCode { get; init; }
+    public string Country { get; init; }
+    public string Phone { get; init; }
+    public DateTime CreatedAt { get; init; }
+    public DateTime? UpdatedAt { get; init; }
+    public bool IsDeleted { get; init; }
 }

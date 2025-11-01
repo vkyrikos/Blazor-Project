@@ -1,7 +1,9 @@
 using BlazorApp.Application.Interfaces;
 using BlazorApp.Components;
+using BlazorApp.Infrastructure;
 using BlazorApp.Infrastructure.ApiClients.Customer;
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
+using Microsoft.Extensions.Options;
 using Polly;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -10,15 +12,16 @@ builder.Services.AddRazorComponents()
     .AddInteractiveServerComponents()
     .AddInteractiveWebAssemblyComponents();
 
-builder.Services.AddHttpClient();
+builder.Services.AddOptions<CustomerConfiguration>()
+    .Bind(builder.Configuration.GetSection("CustomerConfiguration"))
+    .ValidateDataAnnotations()
+    .ValidateOnStart();
 
-var apiBase = builder.Configuration["ExternalApi:BaseUrl"]!;
-
-builder.Services.AddHttpClient<ICustomerApi, CustomerApi>(client =>
+builder.Services.AddHttpClient<ICustomerApi, CustomerApi>((sp, client) =>
 {
-    client.BaseAddress = new Uri(apiBase);
+    var cfg = sp.GetRequiredService<IOptions<CustomerConfiguration>>().Value;
+    client.BaseAddress = new Uri(cfg.BaseUrl);
     client.Timeout = TimeSpan.FromSeconds(30);
-    client.DefaultRequestHeaders.UserAgent.ParseAdd("CustomersWasm/1.0");
 })
 .AddPolicyHandler(Policy<HttpResponseMessage>
     .Handle<HttpRequestException>()

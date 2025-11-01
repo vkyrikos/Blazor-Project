@@ -1,7 +1,7 @@
 ﻿using BlazorApp.Contracts.Api.Input;
 using BlazorApp.Domain.Requests;
 
-namespace BlazorApp.ApiHost.Mapping;
+namespace BlazorApp.ApiHost.Mapping.RequestMapping;
 
 public static class GetCustomerRequestExtensionMapping
 {

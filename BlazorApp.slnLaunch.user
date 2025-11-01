@@ -1,0 +1,16 @@
+[
+  {
+    "Name": "Launch",
+    "Projects": [
+      {
+        "Path": "BlazorApp\\BlazorApp.csproj",
+        "Action": "Start",
+        "DebugTarget": "https"
+      },
+      {
+        "Path": "BlazorApp.Service\\BlazorApp.Service.csproj",
+        "Action": "Start"
+      }
+    ]
+  }
+]
