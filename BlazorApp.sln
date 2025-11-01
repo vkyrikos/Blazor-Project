@@ -23,6 +23,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BlazorApp.ApiHost", "Blazor
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BlazorApp.Service", "BlazorApp.Service\BlazorApp.Service.csproj", "{DC3DE745-BFCA-49CB-9DB1-791083CFD342}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BlazorAppApi.UnitTests", "BlazorAppApi.UnitTests\BlazorAppApi.UnitTests.csproj", "{776D1418-5832-4FB4-941D-0DB31EB99755}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -65,6 +67,10 @@ Global
 		{DC3DE745-BFCA-49CB-9DB1-791083CFD342}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{DC3DE745-BFCA-49CB-9DB1-791083CFD342}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{DC3DE745-BFCA-49CB-9DB1-791083CFD342}.Release|Any CPU.Build.0 = Release|Any CPU
+		{776D1418-5832-4FB4-941D-0DB31EB99755}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{776D1418-5832-4FB4-941D-0DB31EB99755}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{776D1418-5832-4FB4-941D-0DB31EB99755}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{776D1418-5832-4FB4-941D-0DB31EB99755}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -77,6 +83,7 @@ Global
 		{4514F379-A14B-4435-9BC8-CBFF19536884} = {02EA681E-C7D8-13C7-8484-4AC65E1B71E8}
 		{F7F83FEF-B0AD-4A87-8E92-67A6CD1F57C5} = {02EA681E-C7D8-13C7-8484-4AC65E1B71E8}
 		{DC3DE745-BFCA-49CB-9DB1-791083CFD342} = {02EA681E-C7D8-13C7-8484-4AC65E1B71E8}
+		{776D1418-5832-4FB4-941D-0DB31EB99755} = {02EA681E-C7D8-13C7-8484-4AC65E1B71E8}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {249CF358-4880-4F79-BF13-5D4198AEB00E}
