@@ -1,0 +1,101 @@
+﻿@page "/customers/{Id:int}"
+@rendermode InteractiveServer
+@using BlazorApp.Contracts.Api.Output
+@using Microsoft.AspNetCore.Components
+@using BlazorApp.Application.Interfaces
+@using System.Text.Json
+@inject ICustomerApi Api
+
+<h3>Customer #@Id</h3>
+
+@if (_loading)
+{
+    <p>Loading…</p>
+}
+else if (!string.IsNullOrWhiteSpace(_error))
+{
+    <div class="alert alert-danger">@_error</div>
+}
+else if (_customer is not null)
+{
+    <div class="card" style="max-width: 720px; padding: 1rem;">
+        <dl>
+            <dt>Company</dt>
+            <dd>@Show(_customer.CompanyName)</dd>
+            <dt>Contact</dt>
+            <dd>@Show(_customer.ContactName)</dd>
+            <dt>Address</dt>
+            <dd>@Show(_customer.Address)</dd>
+            <dt>City</dt>
+            <dd>@Show(_customer.City)</dd>
+            <dt>Region</dt>
+            <dd>@Show(_customer.Region)</dd>
+            <dt>Postal Code</dt>
+            <dd>@Show(_customer.PostalCode)</dd>
+            <dt>Country</dt>
+            <dd>@Show(_customer.Country)</dd>
+            <dt>Phone</dt>
+            <dd>@Show(_customer.Phone)</dd>
+            <dt>Created</dt>
+            <dd>@FormatDate(_customer.CreatedAt)</dd>
+            <dt>Updated</dt>
+            <dd>@FormatDate(_customer.UpdatedAt)</dd>
+            <dt>Is Deleted</dt>
+            <dd>@(_customer.IsDeleted ? "Yes" : "No")</dd>
+        </dl>
+
+        <button @onclick="Reload">Refresh</button>
+        <a href="/customers" style="margin-left: .5rem;">Back</a>
+    </div>
+
+    <pre>@JsonSerializer.Serialize(_customer, new JsonSerializerOptions { WriteIndented = true })</pre>
+}
+else
+{
+    <p>No data found.</p>
+}
+
+@code {
+    [Parameter] public int Id { get; set; }
+
+    private CustomerDto? _customer;
+    private bool _loading;
+    private string? _error;
+
+    protected override async Task OnParametersSetAsync()
+    {
+        await Load();
+    }
+
+    private async Task Reload() => await Load();
+
+    private async Task Load()
+    {
+        _loading = true;
+        _error = null;
+
+        try
+        {
+            _customer = await Api.GetCustomerAsync(Id);
+        }
+        catch (OperationCanceledException)
+        {
+            _error = "Request was canceled.";
+        }
+        catch (Exception ex)
+        {
+            _error = ex.Message;
+        }
+        finally
+        {
+            _loading = false;
+        }
+    }
+
+    private static string Show(string? s) => string.IsNullOrWhiteSpace(s) ? "—" : s;
+
+    private static string FormatDate(DateTime? dt) =>
+        dt.HasValue && dt.Value != default
+            ? dt.Value.ToString("yyyy-MM-dd HH:mm")
+            : "—";
+}

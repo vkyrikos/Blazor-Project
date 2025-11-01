@@ -1,62 +1,79 @@
-﻿@rendermode InteractiveServer
-@page "/customers/new"
+﻿@page "/customers/new"
+@rendermode InteractiveServer
+@using Microsoft.AspNetCore.Components.Forms
 @using System.Text.Json
 @using BlazorApp.Application.Interfaces
 @inject ICustomerApi Api
 
 <h3>Add Customer</h3>
 
-<EditForm Model="_model" OnValidSubmit="Save" FormName="add-customer">
+<EditForm EditContext="_editContext" OnValidSubmit="Save" @key="_customer">
     <DataAnnotationsValidator />
     <ValidationSummary />
-
-    <div><label>Contact</label> <InputText @bind-Value="_model.ContactName" @bind-Value:event="oninput" /></div>
-    <div><label>Country</label> <InputText @bind-Value="_model.Country" @bind-Value:event="oninput" /></div>
-    <div><label>Region</label> <InputText @bind-Value="_model.Region" @bind-Value:event="oninput" /></div>
-    <div><label>City</label> <InputText @bind-Value="_model.City" @bind-Value:event="oninput" /></div>
-    <div><label>Postal</label> <InputText @bind-Value="_model.PostalCode" @bind-Value:event="oninput" /></div>
-    <div><label>Address</label> <InputText @bind-Value="_model.Address" @bind-Value:event="oninput" /></div>
-    <div><label>Phone</label> <InputText @bind-Value="_model.Phone" @bind-Value:event="oninput" /></div>
-    <div><label>Company</label> <InputText @bind-Value="_model.CompanyName" @bind-Value:event="oninput" /></div>
+    <div>
+        <label>Contact Name</label>
+        <input value="@_customer.ContactName" @onchange="e => _customer.ContactName = e.Value?.ToString()" />
+    </div>
+    <div>
+        <label>Country</label>
+        <input value="@_customer.Country" @onchange="e => _customer.Country = e.Value?.ToString()" />
+    </div>
+    <div>
+        <label>Region</label>
+        <input value="@_customer.Region" @onchange="e => _customer.Region = e.Value?.ToString()" />
+    </div>
+    <div>
+        <label>City</label>
+        <input value="@_customer.City" @onchange="e => _customer.City = e.Value?.ToString()" />
+    </div>
+    <div>
+        <label>Address</label>
+        <input value="@_customer.Address" @onchange="e => _customer.Address = e.Value?.ToString()" />
+    </div>
+    <div>
+        <label>PostalCode</label>
+        <input value="@_customer.PostalCode" @onchange="e => _customer.PostalCode = e.Value?.ToString()" />
+    </div>
+    <div>
+        <label>Phone</label>
+        <input value="@_customer.Phone" @onchange="e => _customer.Phone = e.Value?.ToString()" />
+    </div>
+    <div>
+        <label>CompanyName</label>
+        <input value="@_customer.CompanyName" @onchange="e => _customer.CompanyName = e.Value?.ToString()" />
+    </div>
 
     <button type="submit">Save</button>
 </EditForm>
 
-<!-- Debug: shows live model contents -->
-<pre>@JsonSerializer.Serialize(_model)</pre>
+<pre>@JsonSerializer.Serialize(_customer, new JsonSerializerOptions { WriteIndented = true })</pre>
 
-@if (!string.IsNullOrEmpty(_status))
+@if (!string.IsNullOrWhiteSpace(_status))
 {
     <p>@_status</p>
 }
 
 @code {
-    // Ensure this is the mutable model class (setters, not init-only)
-    private BlazorApp.Models.Customer _model = new();
-
+    private BlazorApp.Models.Customer _customer = new();
+    private EditContext _editContext = default!;
     private string? _status;
+
+    protected override void OnInitialized()
+    {
+        _editContext = new EditContext(_customer);
+    }
 
     private async Task Save()
     {
         try
         {
-            // Map to DTO if your API expects CustomerDto
-            var dto = new BlazorApp.Models.Customer
-            {
-                Id = _model.Id,
-                CompanyName = _model.CompanyName,
-                ContactName = _model.ContactName,
-                Address = _model.Address,
-                City = _model.City,
-                Region = _model.Region,
-                PostalCode = _model.PostalCode,
-                Country = _model.Country,
-                Phone = _model.Phone
-            };
+            var created = await Api.UpsertCustomerAsync(_customer);
 
-            var created = await Api.UpsertCustomerAsync(dto);
             _status = $"Saved. New Id: {created.Id}";
-            _model = new(); // clear form
+
+            // Clear the form correctly: replace model AND edit context, and re-key the form
+            _customer = new();
+            _editContext = new EditContext(_customer);
         }
         catch (Exception ex)
         {

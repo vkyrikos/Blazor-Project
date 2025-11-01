@@ -2,6 +2,7 @@ using BlazorApp.Application.Interfaces;
 using BlazorApp.Components;
 using BlazorApp.Infrastructure;
 using BlazorApp.Infrastructure.ApiClients.Customer;
+using BlazorApp.Infrastructure.Converters;
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
 using Microsoft.Extensions.Options;
 using Polly;
@@ -17,11 +18,16 @@ builder.Services.AddOptions<CustomerConfiguration>()
     .ValidateDataAnnotations()
     .ValidateOnStart();
 
+builder.Services.ConfigureHttpJsonOptions(o =>
+{
+    o.SerializerOptions.PropertyNameCaseInsensitive = true;
+    o.SerializerOptions.Converters.Add(new UnwrapDataJsonConverterFactory());
+});
+
 builder.Services.AddHttpClient<ICustomerApi, CustomerApi>((sp, client) =>
 {
     var cfg = sp.GetRequiredService<IOptions<CustomerConfiguration>>().Value;
     client.BaseAddress = new Uri(cfg.BaseUrl);
-    client.Timeout = TimeSpan.FromSeconds(30);
 })
 .AddPolicyHandler(Policy<HttpResponseMessage>
     .Handle<HttpRequestException>()

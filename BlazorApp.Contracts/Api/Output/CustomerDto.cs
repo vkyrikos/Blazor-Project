@@ -1,4 +1,6 @@
-﻿namespace BlazorApp.Contracts.Api.Output;
+﻿using System.Text.Json.Serialization;
+
+namespace BlazorApp.Contracts.Api.Output;
 
 public class CustomerDto
 {
@@ -14,4 +16,10 @@ public class CustomerDto
     public DateTime CreatedAt { get; init; }
     public DateTime? UpdatedAt { get; init; }
     public bool IsDeleted { get; init; }
+
+    [JsonConstructor]
+    public CustomerDto()
+    {
+        
+    }
 }

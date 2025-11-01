@@ -1,6 +1,4 @@
-﻿using Microsoft.Extensions.Caching.Memory;
-
-namespace BlazorApp.Application.Interfaces.Cache;
+﻿namespace BlazorApp.Application.Interfaces.Cache;
 
 public interface ICache
 {

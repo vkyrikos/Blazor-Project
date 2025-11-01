@@ -1,6 +1,4 @@
-﻿using Microsoft.AspNetCore.Mvc;
-
-namespace BlazorApp.Contracts.Api.Input;
+﻿namespace BlazorApp.Contracts.Api.Input;
 
 public sealed class DeleteCustomerRequest
 {
