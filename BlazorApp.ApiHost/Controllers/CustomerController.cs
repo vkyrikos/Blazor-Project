@@ -23,7 +23,7 @@ public sealed class CustomerController(ICustomerService customerService) : Contr
     [Route(RouteConstants.V1.UpsertCustomer)]
     public async Task<IActionResult> UpsertCustomerAsync(UpsertCustomerRequest request, CancellationToken cancellationToken)
     {
-        var serviceResponse = await customerService.UpsertCustomerAsync(request.ToDomainCustomer(), cancellationToken);
+        var serviceResponse = await customerService.UpsertCustomerAsync(request.ToDomain(), cancellationToken);
 
         return serviceResponse.Error is null
             ? Ok(ResponseCreator.GetSuccessResponse(serviceResponse))
@@ -34,7 +34,7 @@ public sealed class CustomerController(ICustomerService customerService) : Contr
     [Route(RouteConstants.V1.GetCustomer)]
     public async Task<IActionResult> GetCustomerAsync(GetCustomerRequest request, CancellationToken cancellationToken)
     {
-        var serviceResponse = await customerService.GetCustomerAsync(request.ToGetCustomerRequestModel(), cancellationToken);
+        var serviceResponse = await customerService.GetCustomerAsync(request.ToDomain(), cancellationToken);
         return serviceResponse.Error is null
             ? Ok(ResponseCreator.GetSuccessResponse(serviceResponse))
             : serviceResponse.Error.Code == Domain.ErrorCode.NotFound
@@ -46,7 +46,7 @@ public sealed class CustomerController(ICustomerService customerService) : Contr
     [Route(RouteConstants.V1.GetCustomers)]
     public async Task<IActionResult> GetCustomersAsync(GetCustomersRequest request, CancellationToken cancellation)
     {
-        var serviceResponse = await customerService.GetCustomersAsync(request.ToDomainGetCustomersRequest(), cancellation);
+        var serviceResponse = await customerService.GetCustomersAsync(request.ToDomain(), cancellation);
 
         return serviceResponse.Error is null
             ? Ok(ResponseCreator.GetSuccessResponse(serviceResponse))
@@ -57,7 +57,7 @@ public sealed class CustomerController(ICustomerService customerService) : Contr
     [Route(RouteConstants.V1.DeleteCustomer)]
     public async Task<IActionResult> DeleteCustomerAsync([FromBody]DeleteCustomerRequest request, CancellationToken cancellationToken)
     {
-        var serviceResponse = await customerService.DeleteCustomerAsync(request.ToDeleteCustomerRequestModel(), cancellationToken);
+        var serviceResponse = await customerService.DeleteCustomerAsync(request.ToDomain(), cancellationToken);
 
         return serviceResponse.Error is null
             ? Ok(ResponseCreator.GetSuccessResponse(serviceResponse))

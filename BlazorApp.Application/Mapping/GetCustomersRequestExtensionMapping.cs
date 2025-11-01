@@ -5,7 +5,7 @@ namespace BlazorApp.Application.Mapping;
 
 public static class GetCustomersRequestExtensionMapping
 {
-    public static GetCustomersRequestModel ToDomainGetCustomersRequest(this GetCustomersRequest request) => new()
+    public static GetCustomersRequestModel ToDomain(this GetCustomersRequest request) => new()
     {
         IncludeDeleted = request.IncludeDeleted,
         PageNumber = request.PageNumber,

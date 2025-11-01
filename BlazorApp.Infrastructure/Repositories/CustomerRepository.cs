@@ -11,34 +11,28 @@ public class CustomerRepository(IDbContextFactory<AssignmentDbContext> factory) 
     private readonly IDbContextFactory<AssignmentDbContext> _factory = factory;
     private const int PageSize = 10;
 
-    public async Task<int> InsertCustomerAsync(Customer customer, CancellationToken cancellationToken = default)
+    public async Task<Customer> InsertCustomerAsync(Customer customer, CancellationToken cancellationToken = default)
     {
         await using var db = await _factory.CreateDbContextAsync(cancellationToken);
-        
-        customer.CreatedAt = DateTime.UtcNow;
 
         db.Customers.Add(customer);
+        await db.SaveChangesAsync(cancellationToken);
 
-        var inserted = await db.SaveChangesAsync(cancellationToken);
-
-        return inserted;
+        return customer;
     }
 
-    public async Task<int> UpdateCustomerAsync(int customerId, Customer customer, CancellationToken cancellationToken = default)
+    public async Task<Customer?> UpdateCustomerAsync(Customer customer, CancellationToken cancellationToken = default)
     {
         await using var db = await _factory.CreateDbContextAsync(cancellationToken);
 
-        customer.UpdatedAt = DateTime.UtcNow;
+        var updatedAtValue = DateTime.UtcNow;
 
-        db.Customers.Update(customer);
+        await db.Customers.ExecuteUpdateAsync(
+                s => s
+                    .SetProperty(c => c.UpdatedAt, c => updatedAtValue),
+                cancellationToken);
 
-        var affected = await db.SaveChangesAsync(cancellationToken);
-
-        return affected switch
-        {
-            0 => await CheckIfCustomerExists(customerId, db, affected, cancellationToken),
-            _ => affected
-        };
+        return customer.UpdatedAt == updatedAtValue ? customer : null;
     }
 
     public async Task<Customer?> GetCustomerAsync(int customerId, CancellationToken cancellationToken = default)
@@ -94,14 +88,5 @@ public class CustomerRepository(IDbContextFactory<AssignmentDbContext> factory) 
                     .SetProperty(c => c.IsDeleted, c => true)
                     .SetProperty(c => c.UpdatedAt, c => DateTime.UtcNow),
                 cancellationToken);
-    }
-
-    private static async Task<int> CheckIfCustomerExists(int customerId, AssignmentDbContext db, int affected, CancellationToken cancellationToken)
-    {
-        var customerExists = await db.Customers
-        .AsNoTracking()
-        .AnyAsync(c => c.Id == customerId, cancellationToken);
-
-        return customerExists ? affected : -1;
     }
 }

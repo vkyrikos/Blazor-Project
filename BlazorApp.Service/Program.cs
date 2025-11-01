@@ -1,18 +1,26 @@
 ﻿using BlazorApp.Service;
 using Microsoft.AspNetCore.Builder;
+using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.DependencyInjection;
 
 internal class Program
 {
     static async Task Main(string[] args)
     {
-        var appBuilder = WebApplication.CreateBuilder(args);
+        var builder = WebApplication.CreateBuilder(args);
 
-        appBuilder.Services
+        builder.Services
             .AddHostedService<Service>()
-            .RegisterServiceDependencies(appBuilder.Configuration);
+            .RegisterServiceDependencies(builder.Configuration);
 
-        var app = appBuilder.Build();
+        builder.Services.AddMemoryCache(options => new MemoryCacheEntryOptions()
+        {
+            AbsoluteExpirationRelativeToNow = TimeSpan.FromMinutes(10),
+            SlidingExpiration = TimeSpan.FromMinutes(5),
+            Priority = CacheItemPriority.Normal
+        });
+
+        var app = builder.Build();
 
         app.UseHttpsRedirection();
         app.UseRouting();

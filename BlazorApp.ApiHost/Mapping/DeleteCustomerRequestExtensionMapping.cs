@@ -5,7 +5,7 @@ namespace BlazorApp.ApiHost.Mapping;
 
 public static class DeleteCustomerRequestExtensionMapping
 {
-    public static DeleteCustomerRequestModel ToDeleteCustomerRequestModel(this DeleteCustomerRequest request) => new()
+    public static DeleteCustomerRequestModel ToDomain(this DeleteCustomerRequest request) => new()
     {
         CustromerId = request.CustomerId
     };

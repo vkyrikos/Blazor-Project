@@ -1,4 +1,6 @@
-﻿using BlazorApp.Application.Common;
+﻿using BlazorApp.Application.Cache;
+using BlazorApp.Application.Common;
+using BlazorApp.Application.Interfaces.Cache;
 using BlazorApp.Application.Interfaces.Common;
 using BlazorApp.Application.Interfaces.Repositories.Customer;
 using BlazorApp.Application.Interfaces.Services.Customer;
@@ -10,7 +12,7 @@ using DomainCustomer = BlazorApp.Domain.Models.Customer;
 
 namespace BlazorApp.Application.Services.Customer;
 
-internal class CustomerSevice(ILogger<CustomerSevice> logger, ICustomerRepository customerRepo) : ICustomerService
+internal class CustomerSevice(ILogger<CustomerSevice> logger, ICustomerRepository customerRepo, ICache cache) : ICustomerService
 {
     private const string CustomerPayloadRequired = "Customer payload is required.";
     private const string CustomerIdMustBePositive = "The 'customerId' must be greater than 0.";
@@ -27,31 +29,19 @@ internal class CustomerSevice(ILogger<CustomerSevice> logger, ICustomerRepositor
     private const string CustomerNotInserted = "Failed to insert customer.";
     private const string CustomerNotFoundFormatted = "Customer with Id {0} was not found.";
 
-    public async Task<IServiceResponse<int>> UpsertCustomerAsync(DomainCustomer customer, CancellationToken cancellationToken = default)
+    public async Task<IServiceResponse<DomainCustomer?>> UpsertCustomerAsync(UpsertCustomerRequestModel request, CancellationToken cancellationToken = default)
     {
-        if (customer is null)
-            return ServiceResponse<int>.Failure(new Error(ErrorCode.Validation, CustomerPayloadRequired));
+        if (request is null)
+            return ServiceResponse<DomainCustomer?>.Failure(new Error(ErrorCode.Validation, CustomerPayloadRequired));
 
-        var isInsert = customer.Id <= 0;
 
         try
         {
-            var result = isInsert
-                ? await customerRepo
-                    .InsertCustomerAsync(customer, cancellationToken)
-                : await customerRepo
-                    .UpdateCustomerAsync(customer.Id, customer, cancellationToken);
 
-            if (isInsert)
+            return request.Customer.Id switch
             {
-                return ServiceResponse<int>.Success(result);
-            }
-
-            return result switch
-            {
-                -1 => ServiceResponse<int>.Failure(new Error(ErrorCode.NotFound, NotFoundUpdateCustomer)),
-                0 => ServiceResponse<int>.Failure(new Error(ErrorCode.Business, "Nothing to update")),
-                _ => ServiceResponse<int>.Success(result)
+                0 => await InsertCustomerAsync(request, cancellationToken),
+                >= 1 => await UpdateCustomerAsync(request, cancellationToken)
             };
         }
         catch (OperationCanceledException) when (cancellationToken.IsCancellationRequested)
@@ -60,11 +50,13 @@ internal class CustomerSevice(ILogger<CustomerSevice> logger, ICustomerRepositor
         }
         catch (Exception ex)
         {
-            var logMessage = isInsert ? CustomerNotInserted : string.Format(CustomerNotUpdatedFormatted, customer.Id);
+            var isInsert = request.Customer.Id > 0;
+
+            var logMessage = isInsert ? CustomerNotInserted : string.Format(CustomerNotUpdatedFormatted, request.Customer.Id);
             logger.LogError(ex, logMessage);
 
             var serviceErrorMessage = isInsert ? InsertCustomerUnexpectedError : UpdateCustomerUnexpectedError;
-            return ServiceResponse<int>.Failure(new Error(ErrorCode.Generic, serviceErrorMessage));
+            return ServiceResponse<DomainCustomer?>.Failure(new Error(ErrorCode.Generic, serviceErrorMessage));
         }
     }
 
@@ -75,8 +67,10 @@ internal class CustomerSevice(ILogger<CustomerSevice> logger, ICustomerRepositor
 
         try
         {
-            var customer = await customerRepo
-                .GetCustomerAsync(request.CustomerId, cancellationToken);
+            var customer = await cache.GetOrCreateAsync(
+                CacheRoutingKeys.GetCustomerRoutingKey(request.CustomerId),
+                async ct => await customerRepo.GetCustomerAsync(request.CustomerId, cancellationToken), 
+                cancellationToken); 
 
             if (customer is null)
             {
@@ -104,9 +98,12 @@ internal class CustomerSevice(ILogger<CustomerSevice> logger, ICustomerRepositor
 
         try
         {
-            var result = await customerRepo.GetCustomersAsync(request, cancellationToken);
+            var cachedPage = await cache.GetOrCreateAsync(
+                CacheRoutingKeys.GetCustomersPageRoutingKey(request.PageNumber),
+                async ct => await customerRepo.GetCustomersAsync(request, cancellationToken),
+                cancellationToken);
 
-            return ServiceResponse<List<DomainCustomer>>.Success(result);
+            return ServiceResponse<List<DomainCustomer>>.Success(cachedPage);
         }
         catch (OperationCanceledException) when (cancellationToken.IsCancellationRequested)
         {
@@ -141,5 +138,24 @@ internal class CustomerSevice(ILogger<CustomerSevice> logger, ICustomerRepositor
             return ServiceResponse<int>.Failure(
                 new Error(ErrorCode.Generic, string.Format(DeleteUnexpectedError, request.CustromerId)));
         }
+    }
+
+    private async Task<IServiceResponse<DomainCustomer?>> UpdateCustomerAsync(UpsertCustomerRequestModel request, CancellationToken cancellationToken)
+    {
+        var result = await customerRepo.UpdateCustomerAsync(request.Customer, cancellationToken);
+
+        return result switch
+        {
+            null => ServiceResponse<DomainCustomer?>.Failure(new Error(ErrorCode.NotFound, NotFoundUpdateCustomer)),
+            _ => ServiceResponse<DomainCustomer?>.Success(result)
+        };
+    }
+
+    private async Task<IServiceResponse<DomainCustomer?>> InsertCustomerAsync(UpsertCustomerRequestModel request, CancellationToken cancellationToken)
+    {
+        var insertResult = await customerRepo
+            .InsertCustomerAsync(request.Customer, cancellationToken);
+
+        return ServiceResponse<DomainCustomer?>.Success(insertResult);
     }
 }

@@ -1,4 +1,6 @@
-﻿using BlazorApp.Application.Interfaces.Repositories.Customer;
+﻿using BlazorApp.Application.Cache;
+using BlazorApp.Application.Interfaces.Cache;
+using BlazorApp.Application.Interfaces.Repositories.Customer;
 using BlazorApp.Application.Interfaces.Services.Customer;
 using BlazorApp.Application.Services.Customer;
 using BlazorApp.Infrastructure.Repositories;
@@ -12,5 +14,6 @@ public static class DependencyRegistration
     {
         services.AddSingleton<ICustomerRepository, CustomerRepository>();
         services.AddSingleton<ICustomerService, CustomerSevice>();
+        services.AddSingleton<ICache, AppCache>();
     }
 }
