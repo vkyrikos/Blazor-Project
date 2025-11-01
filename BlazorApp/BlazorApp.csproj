@@ -18,4 +18,10 @@
     <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="9.0.10" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Application\Services\" />
+    <Folder Include="Contracts\Input\" />
+    <Folder Include="Contracts\Output\" />
+  </ItemGroup>
+
 </Project>

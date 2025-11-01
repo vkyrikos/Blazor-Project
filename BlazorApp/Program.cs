@@ -1,28 +1,27 @@
+using BlazorApp.Application.Interfaces;
 using BlazorApp.Components;
-using BlazorApp.Data;
-using BlazorApp.Infrastructure;
-using BlazorApp.Infrastructure.Database.Context;
-using Microsoft.EntityFrameworkCore;
+using BlazorApp.Infrastructure.ApiClients.Customer;
+using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
 builder.Services.AddRazorComponents()
     .AddInteractiveServerComponents()
     .AddInteractiveWebAssemblyComponents();
 
-builder.Services.AddDbContextFactory<AssignmentDbContext>(options => 
-options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"),
-sql => sql.EnableRetryOnFailure()));
-
-builder.Services.RegisterInfrastructureDependencies();
-
-builder.Services.AddSingleton<WeatherForecastService>();
 builder.Services.AddHttpClient();
+
+var apiBase = builder.Configuration["ExternalApi:BaseUrl"]!;
+
+builder.Services.AddHttpClient<ICustomerApi, CustomerApi>(client =>
+{
+    client.BaseAddress = new Uri(apiBase);
+    client.Timeout = TimeSpan.FromSeconds(30);
+    client.DefaultRequestHeaders.UserAgent.ParseAdd("CustomersWasm/1.0");
+});
 
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
     app.UseWebAssemblyDebugging();
@@ -30,7 +29,6 @@ if (app.Environment.IsDevelopment())
 else
 {
     app.UseExceptionHandler("/Error", createScopeForErrors: true);
-    // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
     app.UseHsts();
 }
 
