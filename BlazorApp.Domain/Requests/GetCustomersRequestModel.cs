@@ -4,5 +4,5 @@ public sealed class GetCustomersRequestModel
 {
     public int PageNumber { get; init; }
 
-    public bool IsDeleted { get; init; }
+    public bool IncludeDeleted { get; init; }
 }

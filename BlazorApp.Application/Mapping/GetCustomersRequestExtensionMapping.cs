@@ -7,7 +7,7 @@ public static class GetCustomersRequestExtensionMapping
 {
     public static GetCustomersRequestModel ToDomainGetCustomersRequest(this GetCustomersRequest request) => new()
     {
-        IsDeleted = request.GetActive,
+        IncludeDeleted = request.IncludeDeleted,
         PageNumber = request.PageNumber,
     };
 }

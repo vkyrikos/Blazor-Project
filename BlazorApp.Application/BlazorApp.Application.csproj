@@ -18,4 +18,8 @@
     <ProjectReference Include="..\BlazorApp.Infrastructure\BlazorApp.Infrastructure.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Cache\" />
+  </ItemGroup>
+
 </Project>

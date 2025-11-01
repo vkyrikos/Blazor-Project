@@ -11,8 +11,8 @@ public static class DependencyRegistration
         services.AddHttpContextAccessor();
         services.AddControllers()
             .AddApplicationPart(typeof(CustomerController).Assembly)
-            .AddJsonOptions(o =>
-                o.JsonSerializerOptions.Converters.Add(
+            .AddJsonOptions(options =>
+                options.JsonSerializerOptions.Converters.Add(
             new JsonStringEnumConverter()));
     }
 }

@@ -1,6 +1,4 @@
-﻿using System.Reflection.Metadata.Ecma335;
-
-namespace BlazorApp.Contracts.Api.Output.Response;
+﻿namespace BlazorApp.Contracts.Api.Output.Response;
 
 public sealed class ResponseDto<T> : ResponseDto where T : class
 {

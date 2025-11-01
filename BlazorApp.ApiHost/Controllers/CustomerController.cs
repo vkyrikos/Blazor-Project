@@ -19,11 +19,22 @@ public sealed class CustomerController(ICustomerService customerService) : Contr
         return Ok("tick");
     }
 
+    [HttpPost]
+    [Route(RouteConstants.V1.UpsertCustomer)]
+    public async Task<IActionResult> UpsertCustomerAsync(UpsertCustomerRequest request, CancellationToken cancellationToken)
+    {
+        var serviceResponse = await customerService.UpsertCustomerAsync(request.ToDomainCustomer(), cancellationToken);
+
+        return serviceResponse.Error is null
+            ? Ok(ResponseCreator.GetSuccessResponse(serviceResponse))
+            : BadRequest(ResponseCreator.GetFailureResponse(serviceResponse.Error.ToResponseResultDto()));
+    }
+
     [HttpGet]
     [Route(RouteConstants.V1.GetCustomer)]
     public async Task<IActionResult> GetCustomerAsync(GetCustomerRequest request, CancellationToken cancellationToken)
     {
-        var serviceResponse = await customerService.GetCustomerAsync(request.Id, cancellationToken);
+        var serviceResponse = await customerService.GetCustomerAsync(request.ToGetCustomerRequestModel(), cancellationToken);
         return serviceResponse.Error is null
             ? Ok(ResponseCreator.GetSuccessResponse(serviceResponse))
             : serviceResponse.Error.Code == Domain.ErrorCode.NotFound
@@ -43,21 +54,10 @@ public sealed class CustomerController(ICustomerService customerService) : Contr
     }
 
     [HttpPost]
-    [Route(RouteConstants.V1.UpsertCustomer)]
-    public async Task<IActionResult> UpsertCustomerAsync(UpsertCustomerRequest request, CancellationToken cancellationToken)
-    {
-        var serviceResponse = await customerService.UpsertCustomerAsync(request.ToDomainCustomer(), cancellationToken);
-
-        return serviceResponse.Error is null
-            ? Ok(ResponseCreator.GetSuccessResponse(serviceResponse))
-            : BadRequest(ResponseCreator.GetFailureResponse(serviceResponse.Error.ToResponseResultDto()));
-    }
-
-    [HttpPost]
     [Route(RouteConstants.V1.DeleteCustomer)]
-    public async Task<IActionResult> DeleteCustomerAsync(DeleteCustomerRequest request, CancellationToken cancellationToken)
+    public async Task<IActionResult> DeleteCustomerAsync([FromBody]DeleteCustomerRequest request, CancellationToken cancellationToken)
     {
-        var serviceResponse = await customerService.DeleteCustomerAsync(request.Id, cancellationToken);
+        var serviceResponse = await customerService.DeleteCustomerAsync(request.ToDeleteCustomerRequestModel(), cancellationToken);
 
         return serviceResponse.Error is null
             ? Ok(ResponseCreator.GetSuccessResponse(serviceResponse))

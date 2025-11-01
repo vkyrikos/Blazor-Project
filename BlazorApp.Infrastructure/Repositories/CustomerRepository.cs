@@ -6,25 +6,22 @@ using Microsoft.EntityFrameworkCore;
 
 namespace BlazorApp.Infrastructure.Repositories;
 
-public class CustomerRepository : ICustomerRepository
+public class CustomerRepository(IDbContextFactory<AssignmentDbContext> factory) : ICustomerRepository
 {
-    private readonly IDbContextFactory<AssignmentDbContext> _factory;
+    private readonly IDbContextFactory<AssignmentDbContext> _factory = factory;
     private const int PageSize = 10;
-
-    public CustomerRepository(IDbContextFactory<AssignmentDbContext> factory)
-    {
-        _factory = factory;
-    }
 
     public async Task<int> InsertCustomerAsync(Customer customer, CancellationToken cancellationToken = default)
     {
-        await using var db =  await _factory.CreateDbContextAsync(cancellationToken);
+        await using var db = await _factory.CreateDbContextAsync(cancellationToken);
+        
+        customer.CreatedAt = DateTime.UtcNow;
 
-        db.Add(customer);
+        db.Customers.Add(customer);
 
-        var affected = await db.SaveChangesAsync(cancellationToken);
+        var inserted = await db.SaveChangesAsync(cancellationToken);
 
-        return affected;
+        return inserted;
     }
 
     public async Task<int> UpdateCustomerAsync(int customerId, Customer customer, CancellationToken cancellationToken = default)
@@ -33,11 +30,15 @@ public class CustomerRepository : ICustomerRepository
 
         customer.UpdatedAt = DateTime.UtcNow;
 
-        db.Update(customer);
+        db.Customers.Update(customer);
 
         var affected = await db.SaveChangesAsync(cancellationToken);
 
-        return affected;
+        return affected switch
+        {
+            0 => await CheckIfCustomerExists(customerId, db, affected, cancellationToken),
+            _ => affected
+        };
     }
 
     public async Task<Customer?> GetCustomerAsync(int customerId, CancellationToken cancellationToken = default)
@@ -62,31 +63,45 @@ public class CustomerRepository : ICustomerRepository
         }
 
         await using var db = await _factory.CreateDbContextAsync(cancellationToken);
+        var query = db.Customers.AsQueryable();
 
-        return await db.Customers
+        if (!request.IncludeDeleted)
+        {
+            query = query.Where(c => !c.IsDeleted);
+        }
+
+        return await query
                        .AsNoTracking()
-                       .Where(w => w.IsDeleted == request.IsDeleted)
                        .OrderBy(c => c.Id)
                        .Skip((request.PageNumber - 1) * PageSize)
                        .Take(PageSize)
                        .ToListAsync(cancellationToken);
     }
 
-    public async Task<int> DeleteCustomerAsync(int customerId, CancellationToken cancellationToken = default)
+    public async Task<int> DeleteCustomerAsync(DeleteCustomerRequestModel request, CancellationToken cancellationToken = default)
     {
-        if (customerId <= 0)
-            throw new ArgumentOutOfRangeException(nameof(customerId));
+        if (request.CustromerId <= 0)
+        {
+            throw new ArgumentOutOfRangeException(nameof(request.CustromerId));
+        }
 
         await using var db = await _factory.CreateDbContextAsync(cancellationToken);
 
-        var affected = await db.Customers
-            .Where(c => c.Id == customerId && !c.IsDeleted)
+        return await db.Customers
+            .Where(c => c.Id == request.CustromerId && !c.IsDeleted)
             .ExecuteUpdateAsync(
                 s => s
                     .SetProperty(c => c.IsDeleted, c => true)
                     .SetProperty(c => c.UpdatedAt, c => DateTime.UtcNow),
                 cancellationToken);
+    }
 
-        return affected;
+    private static async Task<int> CheckIfCustomerExists(int customerId, AssignmentDbContext db, int affected, CancellationToken cancellationToken)
+    {
+        var customerExists = await db.Customers
+        .AsNoTracking()
+        .AnyAsync(c => c.Id == customerId, cancellationToken);
+
+        return customerExists ? affected : -1;
     }
 }

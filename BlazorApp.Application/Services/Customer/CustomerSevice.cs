@@ -5,33 +5,54 @@ using BlazorApp.Application.Interfaces.Services.Customer;
 using BlazorApp.Application.Validation;
 using BlazorApp.Domain;
 using BlazorApp.Domain.Requests;
-using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.Logging;
 using DomainCustomer = BlazorApp.Domain.Models.Customer;
 
 namespace BlazorApp.Application.Services.Customer;
 
-internal class CustomerSevice(ILogger<CustomerSevice> logger,ICustomerRepository customerRepo) : ICustomerService
+internal class CustomerSevice(ILogger<CustomerSevice> logger, ICustomerRepository customerRepo) : ICustomerService
 {
+    private const string CustomerPayloadRequired = "Customer payload is required.";
+    private const string CustomerIdMustBePositive = "The 'customerId' must be greater than 0.";
+    private const string PageNumberMustBePositive = "The 'pageNumber' must be greater than 0.";
+    private const string NotFoundUpdateCustomer = "Trying to update a non existent customer.";
+
+    private const string UpdateCustomerUnexpectedError = "An unexpected error occurred while updating the customer.";
+    private const string InsertCustomerUnexpectedError = "An unexpected error occurred while inserting the customer.";
+    private const string GetCustomerUnexpectedError = "An unexpected error occurred while retrieving the customer.";
+    private const string GetCustomersUnexpectedError = "An unexpected error occurred while retrieving customers.";
+    private const string DeleteUnexpectedError = "An unexpected error occurred while deleting the customer with Id: {0}.";
+
+    private const string CustomerNotUpdatedFormatted = "Failed to update customer with Id: {0}.";
+    private const string CustomerNotInserted = "Failed to insert customer.";
+    private const string CustomerNotFoundFormatted = "Customer with Id {0} was not found.";
+
     public async Task<IServiceResponse<int>> UpsertCustomerAsync(DomainCustomer customer, CancellationToken cancellationToken = default)
     {
         if (customer is null)
-        {
-            return ServiceResponse<int>.Failure(
-                new Error(ErrorCode.Validation, "Customer data are required."));
-        }
+            return ServiceResponse<int>.Failure(new Error(ErrorCode.Validation, CustomerPayloadRequired));
+
+        var isInsert = customer.Id <= 0;
 
         try
         {
-            if (customer.Id <= 0)
+            var result = isInsert
+                ? await customerRepo
+                    .InsertCustomerAsync(customer, cancellationToken)
+                : await customerRepo
+                    .UpdateCustomerAsync(customer.Id, customer, cancellationToken);
+
+            if (isInsert)
             {
-                var inserted = await customerRepo.InsertCustomerAsync(customer, cancellationToken);
-                return ServiceResponse<int>.Success(inserted);
+                return ServiceResponse<int>.Success(result);
             }
 
-            var updated = await customerRepo.UpdateCustomerAsync(customer.Id, customer, cancellationToken);
-
-            return ServiceResponse<int>.Success(updated);
+            return result switch
+            {
+                -1 => ServiceResponse<int>.Failure(new Error(ErrorCode.NotFound, NotFoundUpdateCustomer)),
+                0 => ServiceResponse<int>.Failure(new Error(ErrorCode.Business, "Nothing to update")),
+                _ => ServiceResponse<int>.Success(result)
+            };
         }
         catch (OperationCanceledException) when (cancellationToken.IsCancellationRequested)
         {
@@ -39,30 +60,27 @@ internal class CustomerSevice(ILogger<CustomerSevice> logger,ICustomerRepository
         }
         catch (Exception ex)
         {
-            logger.LogError(ex, ex.Message);
-            return ServiceResponse<int>.Failure(
-                new Error(ErrorCode.Generic, "Unexpected error while upserting customer."));
+            var logMessage = isInsert ? CustomerNotInserted : string.Format(CustomerNotUpdatedFormatted, customer.Id);
+            logger.LogError(ex, logMessage);
+
+            var serviceErrorMessage = isInsert ? InsertCustomerUnexpectedError : UpdateCustomerUnexpectedError;
+            return ServiceResponse<int>.Failure(new Error(ErrorCode.Generic, serviceErrorMessage));
         }
     }
 
-    public async Task<IServiceResponse<DomainCustomer>> GetCustomerAsync(int customerId, CancellationToken cancellationToken = default)
+    public async Task<IServiceResponse<DomainCustomer>> GetCustomerAsync(GetCustomerRequestModel request, CancellationToken cancellationToken = default)
     {
-        if (customerId <= 0)
-        {
-            return ServiceResponse<DomainCustomer>.Failure(
-                new Error(ErrorCode.Validation, "customerId is required."));
-        }
+        if (request.CustomerId <= 0)
+            return ServiceResponse<DomainCustomer>.Failure(new Error(ErrorCode.Validation, CustomerIdMustBePositive));
 
         try
         {
             var customer = await customerRepo
-                .GetCustomerAsync(customerId, cancellationToken)
-                .ConfigureAwait(false);
+                .GetCustomerAsync(request.CustomerId, cancellationToken);
 
             if (customer is null)
             {
-                return ServiceResponse<DomainCustomer>.Failure(
-                    new Error(ErrorCode.NotFound, $"Customer '{customerId}' was not found."));
+                return ServiceResponse<DomainCustomer>.Failure(new Error(ErrorCode.NotFound, string.Format(CustomerNotFoundFormatted, request.CustomerId)));
             }
 
             return ServiceResponse<DomainCustomer>.Success(customer);
@@ -75,17 +93,14 @@ internal class CustomerSevice(ILogger<CustomerSevice> logger,ICustomerRepository
         {
             logger.LogError(ex, ex.Message);
             return ServiceResponse<DomainCustomer>.Failure(
-                new Error(ErrorCode.Generic, "Unexpected error while fetching customer."));
+                new Error(ErrorCode.Generic, GetCustomerUnexpectedError));
         }
     }
 
     public async Task<IServiceResponse<List<DomainCustomer>>> GetCustomersAsync(GetCustomersRequestModel request, CancellationToken cancellationToken = default)
     {
         if (request.PageNumber <= 0)
-        {
-            return ServiceResponse<List<DomainCustomer>>.Failure(
-                new Error(ErrorCode.Validation, "Parameter pageNumber should be greater than 0"));
-        }
+            return ServiceResponse<List<DomainCustomer>>.Failure(new Error(ErrorCode.Validation, PageNumberMustBePositive));
 
         try
         {
@@ -101,27 +116,18 @@ internal class CustomerSevice(ILogger<CustomerSevice> logger,ICustomerRepository
         {
             logger.LogError(ex, ex.Message);
             return ServiceResponse<List<DomainCustomer>>.Failure(
-                new Error(ErrorCode.Generic, $"Unexpected error while fetching customer.\nMessage: {ex.Message}"));
+                new Error(ErrorCode.Generic, GetCustomersUnexpectedError));
         }
     }
 
-    public async Task<IServiceResponse<int>> DeleteCustomerAsync(int customerId, CancellationToken cancellationToken = default)
+    public async Task<IServiceResponse<int>> DeleteCustomerAsync(DeleteCustomerRequestModel request, CancellationToken cancellationToken = default)
     {
-        if (customerId <= 0)
-        {
-            return ServiceResponse<int>.Failure(
-                new Error(ErrorCode.Validation, "Parameter customerId should be greater than 0"));
-        }
+        if (request is null || request.CustromerId <= 0)
+            return ServiceResponse<int>.Failure(new Error(ErrorCode.Validation, CustomerIdMustBePositive));
 
         try
         {
-            var affected = await customerRepo.DeleteCustomerAsync(customerId, cancellationToken);
-
-            if (affected == 0)
-            {
-                return ServiceResponse<int>.Failure(
-                new Error(ErrorCode.Deletion, $"The deletion of customer with Id has not "));
-            }
+            var affected = await customerRepo.DeleteCustomerAsync(request, cancellationToken);
 
             return ServiceResponse<int>.Success(affected);
         }
@@ -132,8 +138,8 @@ internal class CustomerSevice(ILogger<CustomerSevice> logger,ICustomerRepository
         catch (Exception ex)
         {
             logger.LogError(ex, ex.Message);
-            throw;
+            return ServiceResponse<int>.Failure(
+                new Error(ErrorCode.Generic, string.Format(DeleteUnexpectedError, request.CustromerId)));
         }
-
     }
 }

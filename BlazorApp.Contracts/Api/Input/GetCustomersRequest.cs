@@ -1,8 +1,11 @@
-﻿namespace BlazorApp.Contracts.Api.Input;
+﻿using Microsoft.AspNetCore.Mvc;
+
+namespace BlazorApp.Contracts.Api.Input;
 
 public sealed class GetCustomersRequest
 {
+    [FromRoute]
     public int PageNumber { get; init; }
-
-    public bool GetActive { get; init; }
+    [FromQuery]
+    public bool IncludeDeleted { get; init; }
 }
