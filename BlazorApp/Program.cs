@@ -1,12 +1,14 @@
-using BlazorApp.Application.Interfaces;
+﻿using BlazorApp.Application.Interfaces;
 using BlazorApp.Components;
 using BlazorApp.Infrastructure;
 using BlazorApp.Infrastructure.ApiClients.Customer;
 using BlazorApp.Infrastructure.Converters;
+using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authentication.OpenIdConnect;
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Options;
+using Microsoft.IdentityModel.Tokens;
 using Polly;
+using System.IdentityModel.Tokens.Jwt;
 using System.Net.Http.Headers;
 using System.Text.Json;
 
@@ -31,10 +33,48 @@ builder.Services.AddSingleton(_ =>
     return json;
 });
 
+var baseUrl = builder.Configuration.GetSection("CustomerConfiguration").GetSection("BaseUrl").Value!;
+JwtSecurityTokenHandler.DefaultMapInboundClaims = false;
+
+// Server-side auth: Cookies + OIDC against Duende demo
+builder.Services.AddAuthentication(options =>
+{
+    options.DefaultScheme = CookieAuthenticationDefaults.AuthenticationScheme;
+    options.DefaultChallengeScheme = OpenIdConnectDefaults.AuthenticationScheme;
+})
+.AddCookie(CookieAuthenticationDefaults.AuthenticationScheme)
+.AddOpenIdConnect(OpenIdConnectDefaults.AuthenticationScheme, options =>
+{
+    options.Authority = "https://demo.duendesoftware.com";
+    options.ClientId = "interactive.confidential";
+    options.ClientSecret = "secret";           // demo client
+    options.ResponseType = "code";
+
+    options.SaveTokens = true;                 // keep tokens in auth session
+    options.GetClaimsFromUserInfoEndpoint = true;
+    options.MapInboundClaims = false;
+
+    // Ask for an access token for your API and a refresh token
+    options.Scope.Clear();
+    options.Scope.Add("openid");
+    options.Scope.Add("profile");
+    options.Scope.Add("api");
+    options.Scope.Add("offline_access");       // enables silent refresh
+
+    options.TokenValidationParameters = new TokenValidationParameters
+    {
+        NameClaimType = "name",
+        RoleClaimType = "role"
+    };
+});
+
+builder.Services.AddAuthorization();
+builder.Services.AddHttpContextAccessor();
+
 builder.Services.AddHttpClient<ICustomerApi, CustomerApi>((sp, client) =>
 {
-    var cfg = sp.GetRequiredService<IOptions<CustomerConfiguration>>().Value;
-    client.BaseAddress = new Uri(cfg.BaseUrl);
+    client.BaseAddress = new Uri(baseUrl, UriKind.Absolute);
+    client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
 })
 .AddPolicyHandler(Policy<HttpResponseMessage>
     .Handle<HttpRequestException>()
@@ -57,6 +97,9 @@ app.UseHttpsRedirection();
 
 app.UseStaticFiles();
 app.UseAntiforgery();
+
+app.UseAuthentication();
+app.UseAuthorization();
 
 app.MapRazorComponents<App>()
     .AddInteractiveServerRenderMode()

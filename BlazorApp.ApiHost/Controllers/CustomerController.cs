@@ -1,21 +1,24 @@
 ﻿using BlazorApp.ApiHost.Common;
+using BlazorApp.ApiHost.Mapping.DtoMapping;
+using BlazorApp.ApiHost.Mapping.RequestMapping;
 using BlazorApp.Application.Interfaces.Services.Customer;
+using BlazorApp.Application.Mapping;
 using BlazorApp.Contracts.Api.Input;
 using BlazorApp.Contracts.Api.Output.Response;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Routing;
-using BlazorApp.Application.Mapping;
-using BlazorApp.ApiHost.Mapping.RequestMapping;
-using BlazorApp.ApiHost.Mapping.DtoMapping;
 
 namespace BlazorApp.ApiHost.Controllers;
 
 [ApiController]
 [Route(RouteConstants.V1.CustomerController)]
+[Authorize(Policy = "ApiScope")]
 public sealed class CustomerController(ICustomerService customerService) : ControllerBase
 {
     [HttpGet]
     [Route(RouteConstants.V1.Heartbeat)]
+    [Authorize(Policy = "ApiScope")]
     public IActionResult Heartbeat()
     {
         return Ok("tick");
@@ -23,6 +26,7 @@ public sealed class CustomerController(ICustomerService customerService) : Contr
 
     [HttpPost]
     [Route(RouteConstants.V1.UpsertCustomer)]
+    [Authorize(Policy = "ApiScope")]
     public async Task<IActionResult> UpsertCustomerAsync(UpsertCustomerRequest request, CancellationToken cancellationToken)
     {
         var serviceResponse = await customerService.UpsertCustomerAsync(request.ToDomain(), cancellationToken);
@@ -34,6 +38,7 @@ public sealed class CustomerController(ICustomerService customerService) : Contr
 
     [HttpGet]
     [Route(RouteConstants.V1.GetCustomer)]
+    [Authorize(Policy = "ApiScope")]
     public async Task<IActionResult> GetCustomerAsync(GetCustomerRequest request, CancellationToken cancellationToken)
     {
         var serviceResponse = await customerService.GetCustomerAsync(request.ToDomain(), cancellationToken);
@@ -47,6 +52,7 @@ public sealed class CustomerController(ICustomerService customerService) : Contr
 
     [HttpGet]
     [Route(RouteConstants.V1.GetCustomers)]
+    [Authorize(Policy = "ApiScope")]
     public async Task<IActionResult> GetCustomersAsync(GetCustomersRequest request, CancellationToken cancellation)
     {
         var serviceResponse = await customerService.GetCustomersAsync(request.ToDomain(), cancellation);
@@ -58,6 +64,7 @@ public sealed class CustomerController(ICustomerService customerService) : Contr
 
     [HttpPost]
     [Route(RouteConstants.V1.DeleteCustomer)]
+    [Authorize(Policy = "ApiScope")]
     public async Task<IActionResult> DeleteCustomerAsync([FromBody]DeleteCustomerRequest request, CancellationToken cancellationToken)
     {
         var serviceResponse = await customerService.DeleteCustomerAsync(request.ToDomain(), cancellationToken);

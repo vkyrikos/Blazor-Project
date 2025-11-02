@@ -10,6 +10,8 @@
     <ProjectReference Include="..\BlazorApp.Application\BlazorApp.Application.csproj" />
     <ProjectReference Include="..\BlazorApp.Client\BlazorApp.Client.csproj" />
     <ProjectReference Include="..\BlazorApp.Infrastructure\BlazorApp.Infrastructure.csproj" />
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.Cookies" Version="2.3.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.OpenIdConnect" Version="8.0.3" />
     <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.Server" Version="8.0.13" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="9.0.10">
       <PrivateAssets>all</PrivateAssets>
