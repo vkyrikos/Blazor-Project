@@ -46,6 +46,7 @@ C:\Users\panwl\Documents\GitHub\Blazor-Project\BlazorApp\bin\Debug\net8.0\Micros
 C:\Users\panwl\Documents\GitHub\Blazor-Project\BlazorApp\bin\Debug\net8.0\Microsoft.EntityFrameworkCore.SqlServer.dll
 C:\Users\panwl\Documents\GitHub\Blazor-Project\BlazorApp\bin\Debug\net8.0\Microsoft.Extensions.Caching.Abstractions.dll
 C:\Users\panwl\Documents\GitHub\Blazor-Project\BlazorApp\bin\Debug\net8.0\Microsoft.Extensions.Caching.Memory.dll
+C:\Users\panwl\Documents\GitHub\Blazor-Project\BlazorApp\bin\Debug\net8.0\Microsoft.Extensions.Configuration.dll
 C:\Users\panwl\Documents\GitHub\Blazor-Project\BlazorApp\bin\Debug\net8.0\Microsoft.Extensions.Configuration.Abstractions.dll
 C:\Users\panwl\Documents\GitHub\Blazor-Project\BlazorApp\bin\Debug\net8.0\Microsoft.Extensions.Configuration.Binder.dll
 C:\Users\panwl\Documents\GitHub\Blazor-Project\BlazorApp\bin\Debug\net8.0\Microsoft.Extensions.Configuration.FileExtensions.dll
@@ -53,9 +54,16 @@ C:\Users\panwl\Documents\GitHub\Blazor-Project\BlazorApp\bin\Debug\net8.0\Micros
 C:\Users\panwl\Documents\GitHub\Blazor-Project\BlazorApp\bin\Debug\net8.0\Microsoft.Extensions.DependencyInjection.dll
 C:\Users\panwl\Documents\GitHub\Blazor-Project\BlazorApp\bin\Debug\net8.0\Microsoft.Extensions.DependencyInjection.Abstractions.dll
 C:\Users\panwl\Documents\GitHub\Blazor-Project\BlazorApp\bin\Debug\net8.0\Microsoft.Extensions.DependencyModel.dll
+C:\Users\panwl\Documents\GitHub\Blazor-Project\BlazorApp\bin\Debug\net8.0\Microsoft.Extensions.Diagnostics.dll
+C:\Users\panwl\Documents\GitHub\Blazor-Project\BlazorApp\bin\Debug\net8.0\Microsoft.Extensions.Diagnostics.Abstractions.dll
+C:\Users\panwl\Documents\GitHub\Blazor-Project\BlazorApp\bin\Debug\net8.0\Microsoft.Extensions.Hosting.Abstractions.dll
+C:\Users\panwl\Documents\GitHub\Blazor-Project\BlazorApp\bin\Debug\net8.0\Microsoft.Extensions.Http.dll
+C:\Users\panwl\Documents\GitHub\Blazor-Project\BlazorApp\bin\Debug\net8.0\Microsoft.Extensions.Http.Polly.dll
 C:\Users\panwl\Documents\GitHub\Blazor-Project\BlazorApp\bin\Debug\net8.0\Microsoft.Extensions.Logging.dll
 C:\Users\panwl\Documents\GitHub\Blazor-Project\BlazorApp\bin\Debug\net8.0\Microsoft.Extensions.Logging.Abstractions.dll
+C:\Users\panwl\Documents\GitHub\Blazor-Project\BlazorApp\bin\Debug\net8.0\Microsoft.Extensions.ObjectPool.dll
 C:\Users\panwl\Documents\GitHub\Blazor-Project\BlazorApp\bin\Debug\net8.0\Microsoft.Extensions.Options.dll
+C:\Users\panwl\Documents\GitHub\Blazor-Project\BlazorApp\bin\Debug\net8.0\Microsoft.Extensions.Options.ConfigurationExtensions.dll
 C:\Users\panwl\Documents\GitHub\Blazor-Project\BlazorApp\bin\Debug\net8.0\Microsoft.Extensions.Primitives.dll
 C:\Users\panwl\Documents\GitHub\Blazor-Project\BlazorApp\bin\Debug\net8.0\Microsoft.Identity.Client.dll
 C:\Users\panwl\Documents\GitHub\Blazor-Project\BlazorApp\bin\Debug\net8.0\Microsoft.Identity.Client.Extensions.Msal.dll
@@ -70,6 +78,8 @@ C:\Users\panwl\Documents\GitHub\Blazor-Project\BlazorApp\bin\Debug\net8.0\Micros
 C:\Users\panwl\Documents\GitHub\Blazor-Project\BlazorApp\bin\Debug\net8.0\Microsoft.SqlServer.Server.dll
 C:\Users\panwl\Documents\GitHub\Blazor-Project\BlazorApp\bin\Debug\net8.0\Microsoft.Win32.SystemEvents.dll
 C:\Users\panwl\Documents\GitHub\Blazor-Project\BlazorApp\bin\Debug\net8.0\Mono.TextTemplating.dll
+C:\Users\panwl\Documents\GitHub\Blazor-Project\BlazorApp\bin\Debug\net8.0\Polly.dll
+C:\Users\panwl\Documents\GitHub\Blazor-Project\BlazorApp\bin\Debug\net8.0\Polly.Extensions.Http.dll
 C:\Users\panwl\Documents\GitHub\Blazor-Project\BlazorApp\bin\Debug\net8.0\System.ClientModel.dll
 C:\Users\panwl\Documents\GitHub\Blazor-Project\BlazorApp\bin\Debug\net8.0\System.CodeDom.dll
 C:\Users\panwl\Documents\GitHub\Blazor-Project\BlazorApp\bin\Debug\net8.0\System.Composition.AttributedModel.dll
@@ -171,12 +181,14 @@ C:\Users\panwl\Documents\GitHub\Blazor-Project\BlazorApp\bin\Debug\net8.0\runtim
 C:\Users\panwl\Documents\GitHub\Blazor-Project\BlazorApp\bin\Debug\net8.0\BlazorApp.Application.dll
 C:\Users\panwl\Documents\GitHub\Blazor-Project\BlazorApp\bin\Debug\net8.0\BlazorApp.Application.Interfaces.dll
 C:\Users\panwl\Documents\GitHub\Blazor-Project\BlazorApp\bin\Debug\net8.0\BlazorApp.Client.dll
+C:\Users\panwl\Documents\GitHub\Blazor-Project\BlazorApp\bin\Debug\net8.0\BlazorApp.Contracts.dll
 C:\Users\panwl\Documents\GitHub\Blazor-Project\BlazorApp\bin\Debug\net8.0\BlazorApp.Domain.dll
 C:\Users\panwl\Documents\GitHub\Blazor-Project\BlazorApp\bin\Debug\net8.0\BlazorApp.Infrastructure.dll
 C:\Users\panwl\Documents\GitHub\Blazor-Project\BlazorApp\bin\Debug\net8.0\BlazorApp.Application.pdb
 C:\Users\panwl\Documents\GitHub\Blazor-Project\BlazorApp\bin\Debug\net8.0\BlazorApp.Client.pdb
 C:\Users\panwl\Documents\GitHub\Blazor-Project\BlazorApp\bin\Debug\net8.0\BlazorApp.Infrastructure.pdb
 C:\Users\panwl\Documents\GitHub\Blazor-Project\BlazorApp\bin\Debug\net8.0\BlazorApp.Application.Interfaces.pdb
+C:\Users\panwl\Documents\GitHub\Blazor-Project\BlazorApp\bin\Debug\net8.0\BlazorApp.Contracts.pdb
 C:\Users\panwl\Documents\GitHub\Blazor-Project\BlazorApp\bin\Debug\net8.0\BlazorApp.Domain.pdb
 C:\Users\panwl\Documents\GitHub\Blazor-Project\BlazorApp\obj\Debug\net8.0\BlazorApp.csproj.AssemblyReference.cache
 C:\Users\panwl\Documents\GitHub\Blazor-Project\BlazorApp\obj\Debug\net8.0\rpswa.dswa.cache.json
@@ -184,6 +196,7 @@ C:\Users\panwl\Documents\GitHub\Blazor-Project\BlazorApp\obj\Debug\net8.0\Blazor
 C:\Users\panwl\Documents\GitHub\Blazor-Project\BlazorApp\obj\Debug\net8.0\BlazorApp.AssemblyInfoInputs.cache
 C:\Users\panwl\Documents\GitHub\Blazor-Project\BlazorApp\obj\Debug\net8.0\BlazorApp.AssemblyInfo.cs
 C:\Users\panwl\Documents\GitHub\Blazor-Project\BlazorApp\obj\Debug\net8.0\BlazorApp.csproj.CoreCompileInputs.cache
+C:\Users\panwl\Documents\GitHub\Blazor-Project\BlazorApp\obj\Debug\net8.0\BlazorApp.MvcApplicationPartsAssemblyInfo.cs
 C:\Users\panwl\Documents\GitHub\Blazor-Project\BlazorApp\obj\Debug\net8.0\BlazorApp.MvcApplicationPartsAssemblyInfo.cache
 C:\Users\panwl\Documents\GitHub\Blazor-Project\BlazorApp\obj\Debug\net8.0\BlazorApp.sourcelink.json
 C:\Users\panwl\Documents\GitHub\Blazor-Project\BlazorApp\obj\Debug\net8.0\rjimswa.dswa.cache.json
@@ -204,3 +217,8 @@ C:\Users\panwl\Documents\GitHub\Blazor-Project\BlazorApp\obj\Debug\net8.0\refint
 C:\Users\panwl\Documents\GitHub\Blazor-Project\BlazorApp\obj\Debug\net8.0\BlazorApp.pdb
 C:\Users\panwl\Documents\GitHub\Blazor-Project\BlazorApp\obj\Debug\net8.0\BlazorApp.genruntimeconfig.cache
 C:\Users\panwl\Documents\GitHub\Blazor-Project\BlazorApp\obj\Debug\net8.0\ref\BlazorApp.dll
+C:\Users\panwl\Documents\GitHub\Blazor-Project\BlazorApp\bin\Debug\net8.0\Microsoft.AspNetCore.Authentication.OpenIdConnect.dll
+C:\Users\panwl\Documents\GitHub\Blazor-Project\BlazorApp\bin\Debug\net8.0\Microsoft.Extensions.WebEncoders.dll
+C:\Users\panwl\Documents\GitHub\Blazor-Project\BlazorApp\bin\Debug\net8.0\System.Security.Cryptography.Pkcs.dll
+C:\Users\panwl\Documents\GitHub\Blazor-Project\BlazorApp\bin\Debug\net8.0\System.Security.Cryptography.Xml.dll
+C:\Users\panwl\Documents\GitHub\Blazor-Project\BlazorApp\bin\Debug\net8.0\runtimes\win\lib\net8.0\System.Security.Cryptography.Pkcs.dll

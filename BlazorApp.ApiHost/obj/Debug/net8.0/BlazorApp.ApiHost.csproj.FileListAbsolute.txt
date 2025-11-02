@@ -1,11 +1,13 @@
 C:\Users\panwl\Documents\GitHub\Blazor-Project\BlazorApp.ApiHost\bin\Debug\net8.0\BlazorApp.ApiHost.deps.json
 C:\Users\panwl\Documents\GitHub\Blazor-Project\BlazorApp.ApiHost\bin\Debug\net8.0\BlazorApp.ApiHost.dll
 C:\Users\panwl\Documents\GitHub\Blazor-Project\BlazorApp.ApiHost\bin\Debug\net8.0\BlazorApp.ApiHost.pdb
+C:\Users\panwl\Documents\GitHub\Blazor-Project\BlazorApp.ApiHost\bin\Debug\net8.0\BlazorApp.Application.dll
 C:\Users\panwl\Documents\GitHub\Blazor-Project\BlazorApp.ApiHost\bin\Debug\net8.0\BlazorApp.Application.Interfaces.dll
 C:\Users\panwl\Documents\GitHub\Blazor-Project\BlazorApp.ApiHost\bin\Debug\net8.0\BlazorApp.Contracts.dll
 C:\Users\panwl\Documents\GitHub\Blazor-Project\BlazorApp.ApiHost\bin\Debug\net8.0\BlazorApp.Domain.dll
 C:\Users\panwl\Documents\GitHub\Blazor-Project\BlazorApp.ApiHost\bin\Debug\net8.0\BlazorApp.Infrastructure.dll
 C:\Users\panwl\Documents\GitHub\Blazor-Project\BlazorApp.ApiHost\bin\Debug\net8.0\BlazorApp.Application.Interfaces.pdb
+C:\Users\panwl\Documents\GitHub\Blazor-Project\BlazorApp.ApiHost\bin\Debug\net8.0\BlazorApp.Application.pdb
 C:\Users\panwl\Documents\GitHub\Blazor-Project\BlazorApp.ApiHost\bin\Debug\net8.0\BlazorApp.Contracts.pdb
 C:\Users\panwl\Documents\GitHub\Blazor-Project\BlazorApp.ApiHost\bin\Debug\net8.0\BlazorApp.Infrastructure.pdb
 C:\Users\panwl\Documents\GitHub\Blazor-Project\BlazorApp.ApiHost\bin\Debug\net8.0\BlazorApp.Domain.pdb
@@ -20,5 +22,3 @@ C:\Users\panwl\Documents\GitHub\Blazor-Project\BlazorApp.ApiHost\obj\Debug\net8.
 C:\Users\panwl\Documents\GitHub\Blazor-Project\BlazorApp.ApiHost\obj\Debug\net8.0\refint\BlazorApp.ApiHost.dll
 C:\Users\panwl\Documents\GitHub\Blazor-Project\BlazorApp.ApiHost\obj\Debug\net8.0\BlazorApp.ApiHost.pdb
 C:\Users\panwl\Documents\GitHub\Blazor-Project\BlazorApp.ApiHost\obj\Debug\net8.0\ref\BlazorApp.ApiHost.dll
-C:\Users\panwl\Documents\GitHub\Blazor-Project\BlazorApp.ApiHost\bin\Debug\net8.0\BlazorApp.Application.dll
-C:\Users\panwl\Documents\GitHub\Blazor-Project\BlazorApp.ApiHost\bin\Debug\net8.0\BlazorApp.Application.pdb

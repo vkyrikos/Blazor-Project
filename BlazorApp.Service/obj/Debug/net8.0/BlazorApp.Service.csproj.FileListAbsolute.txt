@@ -158,3 +158,4 @@ C:\Users\panwl\Documents\GitHub\Blazor-Project\BlazorApp.Service\obj\Debug\net8.
 C:\Users\panwl\Documents\GitHub\Blazor-Project\BlazorApp.Service\obj\Debug\net8.0\BlazorApp.Service.pdb
 C:\Users\panwl\Documents\GitHub\Blazor-Project\BlazorApp.Service\obj\Debug\net8.0\BlazorApp.Service.genruntimeconfig.cache
 C:\Users\panwl\Documents\GitHub\Blazor-Project\BlazorApp.Service\obj\Debug\net8.0\ref\BlazorApp.Service.dll
+C:\Users\panwl\Documents\GitHub\Blazor-Project\BlazorApp.Service\bin\Debug\net8.0\Microsoft.AspNetCore.Authentication.JwtBearer.dll

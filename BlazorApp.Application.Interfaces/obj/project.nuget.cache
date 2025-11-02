@@ -1,8 +1,11 @@
 {
   "version": 2,
-  "dgSpecHash": "2GOdLHddA7s=",
+  "dgSpecHash": "Cq/Z4pCOJao=",
   "success": true,
   "projectFilePath": "C:\\Users\\panwl\\Documents\\GitHub\\Blazor-Project\\BlazorApp.Application.Interfaces\\BlazorApp.Application.Interfaces.csproj",
-  "expectedPackageFiles": [],
+  "expectedPackageFiles": [
+    "C:\\Users\\panwl\\.nuget\\packages\\microsoft.extensions.caching.abstractions\\8.0.0\\microsoft.extensions.caching.abstractions.8.0.0.nupkg.sha512",
+    "C:\\Users\\panwl\\.nuget\\packages\\microsoft.extensions.primitives\\8.0.0\\microsoft.extensions.primitives.8.0.0.nupkg.sha512"
+  ],
   "logs": []
 }
