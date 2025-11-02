@@ -4,8 +4,10 @@ using BlazorApp.Infrastructure;
 using BlazorApp.Infrastructure.ApiClients.Customer;
 using BlazorApp.Infrastructure.Converters;
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
 using Polly;
+using System.Net.Http.Headers;
 using System.Text.Json;
 
 var builder = WebApplication.CreateBuilder(args);

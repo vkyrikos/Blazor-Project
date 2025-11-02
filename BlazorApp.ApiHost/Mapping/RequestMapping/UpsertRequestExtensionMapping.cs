@@ -17,7 +17,8 @@ public static class UpsertRequestExtensionMapping
             ContactName = upsertRequest.ContactName,
             Country = upsertRequest.Country,
             Phone = upsertRequest.Phone,
-            PostalCode = upsertRequest.PostalCode
+            PostalCode = upsertRequest.PostalCode,
+            CreatedAt = DateTime.UtcNow
         }
     };
 }

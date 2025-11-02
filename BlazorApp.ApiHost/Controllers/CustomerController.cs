@@ -28,7 +28,7 @@ public sealed class CustomerController(ICustomerService customerService) : Contr
         var serviceResponse = await customerService.UpsertCustomerAsync(request.ToDomain(), cancellationToken);
 
         return serviceResponse.Error is null
-            ? Ok(ResponseCreator.GetSuccessResponse(serviceResponse.Model?.ToDto()))
+            ? Ok(ResponseCreator.GetSuccessResponse(serviceResponse.Model.ToDto()))
             : BadRequest(ResponseCreator.GetFailureResponse(serviceResponse.Error.ToResponseResultDto()));
     }
 
@@ -37,6 +37,7 @@ public sealed class CustomerController(ICustomerService customerService) : Contr
     public async Task<IActionResult> GetCustomerAsync(GetCustomerRequest request, CancellationToken cancellationToken)
     {
         var serviceResponse = await customerService.GetCustomerAsync(request.ToDomain(), cancellationToken);
+        
         return serviceResponse.Error is null
             ? Ok(ResponseCreator.GetSuccessResponse(serviceResponse.Model?.ToDto()))
             : serviceResponse.Error.Code == Domain.ErrorCode.NotFound

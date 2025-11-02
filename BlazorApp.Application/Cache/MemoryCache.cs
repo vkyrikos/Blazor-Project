@@ -20,9 +20,6 @@ public class AppCache(IMemoryCache cache) : ICache
         
         try
         {
-            if (cache.TryGetValue(key, out cached) && cached is not null)
-                return cached;
-
             var value = await factory(cancellationToken);
 
             cache.Set(key, value!);
@@ -32,7 +29,6 @@ public class AppCache(IMemoryCache cache) : ICache
         {
             gate.Release();
         }
-
     }
 
     public void Remove(string key) => cache.Remove(key);

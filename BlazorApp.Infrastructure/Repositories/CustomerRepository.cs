@@ -27,12 +27,30 @@ public class CustomerRepository(IDbContextFactory<AssignmentDbContext> factory) 
 
         var updatedAtValue = DateTime.UtcNow;
 
-        await db.Customers.ExecuteUpdateAsync(
-                s => s
-                    .SetProperty(c => c.UpdatedAt, c => updatedAtValue),
-                cancellationToken);
+        var affected = await db.Customers.
+            Where(c => c.Id == customer.Id)
+            .ExecuteUpdateAsync(s => s
+            .SetProperty(c => c.CompanyName, _ => customer.CompanyName)
+            .SetProperty(c => c.ContactName, _ => customer.ContactName)
+            .SetProperty(c => c.Address, _ => customer.Address)
+            .SetProperty(c => c.City, _ => customer.City)
+            .SetProperty(c => c.Region, _ => customer.Region)
+            .SetProperty(c => c.PostalCode, _ => customer.PostalCode)
+            .SetProperty(c => c.Country, _ => customer.Country)
+            .SetProperty(c => c.Phone, _ => customer.Phone)
+            .SetProperty(c => c.UpdatedAt, _ => updatedAtValue),
+            cancellationToken);
 
-        return customer.UpdatedAt == updatedAtValue ? customer : null;
+        if (affected == 0)
+        {
+            return null;
+        }
+
+        var updated = await db.Customers
+        .AsNoTracking()
+        .FirstOrDefaultAsync(c => c.Id == customer.Id, cancellationToken);
+
+        return updated;
     }
 
     public async Task<Customer?> GetCustomerAsync(int customerId, CancellationToken cancellationToken = default)
@@ -94,11 +112,11 @@ public class CustomerRepository(IDbContextFactory<AssignmentDbContext> factory) 
             return null;
         }
 
-        var updated = await db.Customers
+        var deleted = await db.Customers
             .AsNoTracking()
             .IgnoreQueryFilters()
             .FirstOrDefaultAsync(c => c.Id == request.CustomerId, cancellationToken);
 
-        return updated;
+        return deleted;
     }
 }

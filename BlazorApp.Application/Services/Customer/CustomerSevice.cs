@@ -36,9 +36,9 @@ internal class CustomerSevice(ILogger<CustomerSevice> logger, ICustomerRepositor
 
         try
         {
-
             return request.Customer.Id switch
             {
+                < 0 => ServiceResponse<DomainCustomer?>.Failure(new Error(ErrorCode.Validation, CustomerPayloadRequired)),
                 0 => await InsertCustomerAsync(request, cancellationToken),
                 >= 1 => await UpdateCustomerAsync(request, cancellationToken)
             };
@@ -49,12 +49,12 @@ internal class CustomerSevice(ILogger<CustomerSevice> logger, ICustomerRepositor
         }
         catch (Exception ex)
         {
-            var isInsert = request.Customer.Id > 0;
+            var isUpdate = request.Customer.Id > 0;
 
-            var logMessage = isInsert ? CustomerNotInserted : string.Format(CustomerNotUpdatedFormatted, request.Customer.Id);
+            var logMessage = isUpdate ? string.Format(CustomerNotUpdatedFormatted, request.Customer.Id): CustomerNotInserted;
             logger.LogError(ex, logMessage);
 
-            var serviceErrorMessage = isInsert ? InsertCustomerUnexpectedError : UpdateCustomerUnexpectedError;
+            var serviceErrorMessage = isUpdate ? UpdateCustomerUnexpectedError : InsertCustomerUnexpectedError;
             return ServiceResponse<DomainCustomer?>.Failure(new Error(ErrorCode.Generic, serviceErrorMessage));
         }
     }
@@ -68,8 +68,8 @@ internal class CustomerSevice(ILogger<CustomerSevice> logger, ICustomerRepositor
         {
             var customer = await cache.GetOrCreateAsync(
                 CacheRoutingKeys.GetCustomerRoutingKey(request.CustomerId),
-                async ct => await customerRepo.GetCustomerAsync(request.CustomerId, cancellationToken), 
-                cancellationToken); 
+                async ct => await customerRepo.GetCustomerAsync(request.CustomerId, cancellationToken),
+                cancellationToken);
 
             if (customer is null)
             {
@@ -128,8 +128,6 @@ internal class CustomerSevice(ILogger<CustomerSevice> logger, ICustomerRepositor
             if (affected is not null)
             {
                 cache.Remove(CacheRoutingKeys.GetCustomerRoutingKey(request.CustomerId));
-
-
             }
 
             return ServiceResponse<DomainCustomer>.Success(affected);
@@ -148,7 +146,10 @@ internal class CustomerSevice(ILogger<CustomerSevice> logger, ICustomerRepositor
 
     private async Task<IServiceResponse<DomainCustomer?>> UpdateCustomerAsync(UpsertCustomerRequestModel request, CancellationToken cancellationToken)
     {
-        var result = await customerRepo.UpdateCustomerAsync(request.Customer, cancellationToken);
+        var result = await cache.GetOrCreateAsync(
+                CacheRoutingKeys.GetCustomerRoutingKey(request.Customer.Id),
+                async ct => await customerRepo.UpdateCustomerAsync(request.Customer, cancellationToken),
+                cancellationToken);
 
         return result switch
         {
@@ -159,8 +160,10 @@ internal class CustomerSevice(ILogger<CustomerSevice> logger, ICustomerRepositor
 
     private async Task<IServiceResponse<DomainCustomer?>> InsertCustomerAsync(UpsertCustomerRequestModel request, CancellationToken cancellationToken)
     {
-        var insertResult = await customerRepo
-            .InsertCustomerAsync(request.Customer, cancellationToken);
+        var insertResult = await cache.GetOrCreateAsync(
+                CacheRoutingKeys.GetCustomerRoutingKey(request.Customer.Id),
+                async ct => await customerRepo.InsertCustomerAsync(request.Customer, cancellationToken),
+                cancellationToken);
 
         return ServiceResponse<DomainCustomer?>.Success(insertResult);
     }
