@@ -12,7 +12,7 @@ using DomainCustomer = BlazorApp.Domain.Models.Customer;
 
 namespace BlazorApp.Application.Services.Customer;
 
-internal class CustomerSevice(ILogger<CustomerSevice> logger, ICustomerRepository customerRepo, ICache cache) : ICustomerService
+public class CustomerService(ILogger<ICustomerService> logger, ICustomerRepository customerRepo, ICache cache) : ICustomerService
 {
     private const string CustomerPayloadRequired = "Customer payload is required.";
     private const string CustomerIdMustBePositive = "The 'customerId' must be greater than 0.";

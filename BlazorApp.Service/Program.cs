@@ -1,5 +1,4 @@
 ﻿using BlazorApp.Service;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.DependencyInjection;
@@ -28,9 +27,7 @@ internal class Program
             options.Authority = "https://demo.duendesoftware.com";
             options.TokenValidationParameters = new TokenValidationParameters
             {
-                ValidateAudience = false,
-                //NameClaimType = "name",
-                //RoleClaimType = "role"
+                ValidateAudience = false
             };
         });
 

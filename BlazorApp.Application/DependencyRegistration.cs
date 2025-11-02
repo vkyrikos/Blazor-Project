@@ -13,7 +13,7 @@ public static class DependencyRegistration
     public static void RegisterApplicationDependencies(this IServiceCollection services)
     {
         services.AddSingleton<ICustomerRepository, CustomerRepository>();
-        services.AddSingleton<ICustomerService, CustomerSevice>();
+        services.AddSingleton<ICustomerService, CustomerService>();
         services.AddSingleton<ICache, AppCache>();
     }
 }
