@@ -7,6 +7,6 @@ public static class DeleteCustomerRequestExtensionMapping
 {
     public static DeleteCustomerRequestModel ToDomain(this DeleteCustomerRequest request) => new()
     {
-        CustromerId = request.CustomerId
+        CustomerId = request.CustomerId
     };
 }

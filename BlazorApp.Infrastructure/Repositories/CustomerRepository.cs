@@ -72,21 +72,33 @@ public class CustomerRepository(IDbContextFactory<AssignmentDbContext> factory) 
                        .ToListAsync(cancellationToken);
     }
 
-    public async Task<int> DeleteCustomerAsync(DeleteCustomerRequestModel request, CancellationToken cancellationToken = default)
+    public async Task<Customer> DeleteCustomerAsync(DeleteCustomerRequestModel request, CancellationToken cancellationToken = default)
     {
-        if (request.CustromerId <= 0)
-        {
-            throw new ArgumentOutOfRangeException(nameof(request.CustromerId));
+        if (request.CustomerId <= 0)
+        { 
+            throw new ArgumentOutOfRangeException(nameof(request.CustomerId)); 
         }
 
         await using var db = await _factory.CreateDbContextAsync(cancellationToken);
 
-        return await db.Customers
-            .Where(c => c.Id == request.CustromerId && !c.IsDeleted)
-            .ExecuteUpdateAsync(
-                s => s
-                    .SetProperty(c => c.IsDeleted, c => true)
-                    .SetProperty(c => c.UpdatedAt, c => DateTime.UtcNow),
-                cancellationToken);
+        var now = DateTime.UtcNow;
+
+        var rows = await db.Customers
+            .Where(c => c.Id == request.CustomerId && !c.IsDeleted)
+            .ExecuteUpdateAsync(s => s
+                .SetProperty(c => c.IsDeleted, true)
+                .SetProperty(c => c.UpdatedAt, now), cancellationToken);
+
+        if (rows == 0)
+        {
+            return null;
+        }
+
+        var updated = await db.Customers
+            .AsNoTracking()
+            .IgnoreQueryFilters()
+            .FirstOrDefaultAsync(c => c.Id == request.CustomerId, cancellationToken);
+
+        return updated;
     }
 }

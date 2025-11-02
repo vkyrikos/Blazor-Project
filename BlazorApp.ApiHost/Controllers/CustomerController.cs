@@ -11,6 +11,7 @@ using BlazorApp.ApiHost.Mapping.DtoMapping;
 namespace BlazorApp.ApiHost.Controllers;
 
 [ApiController]
+[Route(RouteConstants.V1.CustomerController)]
 public sealed class CustomerController(ICustomerService customerService) : ControllerBase
 {
     [HttpGet]
@@ -60,8 +61,6 @@ public sealed class CustomerController(ICustomerService customerService) : Contr
     {
         var serviceResponse = await customerService.DeleteCustomerAsync(request.ToDomain(), cancellationToken);
 
-        return serviceResponse.Error is null
-            ? Ok(ResponseCreator.GetSuccessResponse(serviceResponse))
-            : BadRequest(ResponseCreator.GetFailureResponse(serviceResponse.Error.ToResponseResultDto()));
+        return serviceResponse.Error is null ? Ok() : BadRequest();
     }
 }

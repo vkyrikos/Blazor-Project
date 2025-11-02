@@ -1,4 +1,5 @@
 ﻿using BlazorApp.Application.Interfaces;
+using BlazorApp.Contracts.Api.Input;
 using BlazorApp.Contracts.Api.Output;
 using Microsoft.Extensions.Options;
 using System.Text.Json;
@@ -11,44 +12,42 @@ namespace BlazorApp.Infrastructure.ApiClients.Customer
         {
             var relative = options.Value.UpsertCustomerUrl;
 
-            using var resp = await httpClient.PostAsJsonAsync(relative, input, cancellationToken);
-            resp.EnsureSuccessStatusCode();
+            using var response = await httpClient.PostAsJsonAsync(relative, input, cancellationToken);
+            response.EnsureSuccessStatusCode();
 
-            return await resp.Content.ReadFromJsonAsync<CustomerDto>(jsonOptions);
+            return await response.Content.ReadFromJsonAsync<CustomerDto>(jsonOptions, cancellationToken);
         }
 
         public async Task<CustomerDto> GetCustomerAsync(int id, CancellationToken cancellationtoken = default)
         {
             var relative = options.Value.GetCustomerUrl + id.ToString();
 
-            using var resp = await httpClient.GetAsync(relative);
-            resp.EnsureSuccessStatusCode();
+            using var response = await httpClient.GetAsync(relative);
+            response.EnsureSuccessStatusCode();
 
-            return await resp.Content.ReadFromJsonAsync<CustomerDto>(jsonOptions);
+            return await response.Content.ReadFromJsonAsync<CustomerDto>(jsonOptions, cancellationtoken);
         }
 
         public async Task<List<CustomerDto>> GetCustomersAsync(int page, CancellationToken cancellationToken = default)
         {
             var relative = options.Value.GetCustomersUrl + page.ToString();
 
-            using var resp = await httpClient.GetAsync(relative);
-            resp.EnsureSuccessStatusCode();
+            using var response = await httpClient.GetAsync(relative);
+            response.EnsureSuccessStatusCode();
 
-            var test = await resp.Content.ReadFromJsonAsync<List<CustomerDto>>(jsonOptions);
-
-            return test;
+            return await response.Content.ReadFromJsonAsync<List<CustomerDto>>(jsonOptions, cancellationToken);
         }
 
-        public async Task<CustomerDto> DeleteCustomerAsync(int id, CancellationToken cancellationToken = default)
+        public async Task DeleteCustomerAsync(int id, CancellationToken cancellationToken = default)
         {
-            var relative = options.Value.DeleteCustomerUrl + id.ToString();
+            var relative = options.Value.DeleteCustomerUrl;
+            var deleteRequest = new DeleteCustomerRequest()
+            {
+                CustomerId = id,
+            };
 
-            using var resp = await httpClient.PostAsJsonAsync(relative, cancellationToken);
-            resp.EnsureSuccessStatusCode();
-
-            var test = await resp.Content.ReadFromJsonAsync<CustomerDto>(jsonOptions);
-
-            return test;
+            using var response = await httpClient.PostAsJsonAsync(relative, deleteRequest, cancellationToken);
+            response.EnsureSuccessStatusCode();
         }
     }
 }

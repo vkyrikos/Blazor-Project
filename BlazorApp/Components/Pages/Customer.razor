@@ -4,7 +4,10 @@
 @using Microsoft.AspNetCore.Components
 @using BlazorApp.Application.Interfaces
 @using System.Text.Json
+@using Microsoft.JSInterop
 @inject ICustomerApi Api
+@inject NavigationManager Nav
+@inject IJSRuntime JS
 
 <h3>Customer #@Id</h3>
 
@@ -44,11 +47,18 @@ else if (_customer is not null)
             <dd>@(_customer.IsDeleted ? "Yes" : "No")</dd>
         </dl>
 
-        <button @onclick="Reload">Refresh</button>
-        <a href="/customers" style="margin-left: .5rem;">Back</a>
+        <div style="margin-top:.75rem; display:flex; gap:.5rem; flex-wrap:wrap;">
+            <button @onclick="Edit" disabled="@_busy">Edit</button>
+            <button @onclick="Delete" disabled="@_busy" style="background:#b40000;color:white;">Delete</button>
+            <button @onclick="Reload" disabled="@_busy">Refresh</button>
+            <a href="/customers" style="align-self:center; margin-left:.5rem;">Back</a>
+        </div>
     </div>
 
-    <pre>@JsonSerializer.Serialize(_customer, new JsonSerializerOptions { WriteIndented = true })</pre>
+    <details style="margin-top: 1rem;">
+        <summary>Raw JSON</summary>
+        <pre>@JsonSerializer.Serialize(_customer, new JsonSerializerOptions { WriteIndented = true })</pre>
+    </details>
 }
 else
 {
@@ -61,6 +71,7 @@ else
     private CustomerDto? _customer;
     private bool _loading;
     private string? _error;
+    private bool _busy;
 
     protected override async Task OnParametersSetAsync()
     {
@@ -89,6 +100,35 @@ else
         finally
         {
             _loading = false;
+        }
+    }
+
+    private async Task Edit()
+    {
+        var ok = await JS.InvokeAsync<bool>("confirm", $"Proceed to edit customer #{Id}?");
+        if (!ok) return;
+
+        Nav.NavigateTo($"/customers/{Id}/edit");
+    }
+
+    private async Task Delete()
+    {
+        var ok = await JS.InvokeAsync<bool>("confirm", $"Delete customer #{Id}? This cannot be undone.");
+        if (!ok) return;
+
+        _busy = true;
+        try
+        {
+            await Api.DeleteCustomerAsync(Id);
+            Nav.NavigateTo("/customers");
+        }
+        catch (Exception ex)
+        {
+            _error = ex.Message;
+        }
+        finally
+        {
+            _busy = false;
         }
     }
 

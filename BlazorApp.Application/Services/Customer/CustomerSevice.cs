@@ -34,7 +34,6 @@ internal class CustomerSevice(ILogger<CustomerSevice> logger, ICustomerRepositor
         if (request is null)
             return ServiceResponse<DomainCustomer?>.Failure(new Error(ErrorCode.Validation, CustomerPayloadRequired));
 
-
         try
         {
 
@@ -117,16 +116,23 @@ internal class CustomerSevice(ILogger<CustomerSevice> logger, ICustomerRepositor
         }
     }
 
-    public async Task<IServiceResponse<int>> DeleteCustomerAsync(DeleteCustomerRequestModel request, CancellationToken cancellationToken = default)
+    public async Task<IServiceResponse<DomainCustomer>> DeleteCustomerAsync(DeleteCustomerRequestModel request, CancellationToken cancellationToken = default)
     {
-        if (request is null || request.CustromerId <= 0)
-            return ServiceResponse<int>.Failure(new Error(ErrorCode.Validation, CustomerIdMustBePositive));
+        if (request is null || request.CustomerId <= 0)
+            return ServiceResponse<DomainCustomer>.Failure(new Error(ErrorCode.Validation, CustomerIdMustBePositive));
 
         try
         {
             var affected = await customerRepo.DeleteCustomerAsync(request, cancellationToken);
 
-            return ServiceResponse<int>.Success(affected);
+            if (affected is not null)
+            {
+                cache.Remove(CacheRoutingKeys.GetCustomerRoutingKey(request.CustomerId));
+
+
+            }
+
+            return ServiceResponse<DomainCustomer>.Success(affected);
         }
         catch (OperationCanceledException) when (cancellationToken.IsCancellationRequested)
         {
@@ -135,8 +141,8 @@ internal class CustomerSevice(ILogger<CustomerSevice> logger, ICustomerRepositor
         catch (Exception ex)
         {
             logger.LogError(ex, ex.Message);
-            return ServiceResponse<int>.Failure(
-                new Error(ErrorCode.Generic, string.Format(DeleteUnexpectedError, request.CustromerId)));
+            return ServiceResponse<DomainCustomer>.Failure(
+                new Error(ErrorCode.Generic, string.Format(DeleteUnexpectedError, request.CustomerId)));
         }
     }
 

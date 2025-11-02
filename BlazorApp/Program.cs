@@ -6,6 +6,7 @@ using BlazorApp.Infrastructure.Converters;
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
 using Microsoft.Extensions.Options;
 using Polly;
+using System.Text.Json;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -18,10 +19,14 @@ builder.Services.AddOptions<CustomerConfiguration>()
     .ValidateDataAnnotations()
     .ValidateOnStart();
 
-builder.Services.ConfigureHttpJsonOptions(o =>
+builder.Services.AddSingleton(_ =>
 {
-    o.SerializerOptions.PropertyNameCaseInsensitive = true;
-    o.SerializerOptions.Converters.Add(new UnwrapDataJsonConverterFactory());
+    var json = new JsonSerializerOptions(JsonSerializerDefaults.Web)
+    {
+        PropertyNameCaseInsensitive = true
+    };
+    json.Converters.Add(new UnwrapDataJsonConverterFactory());
+    return json;
 });
 
 builder.Services.AddHttpClient<ICustomerApi, CustomerApi>((sp, client) =>

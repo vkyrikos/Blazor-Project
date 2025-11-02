@@ -2,5 +2,5 @@
 
 public sealed class DeleteCustomerRequestModel
 {
-    public int CustromerId { get; init; }
+    public int CustomerId { get; init; }
 }
