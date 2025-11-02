@@ -36,7 +36,6 @@ builder.Services.AddSingleton(_ =>
 var baseUrl = builder.Configuration.GetSection("CustomerConfiguration").GetSection("BaseUrl").Value!;
 JwtSecurityTokenHandler.DefaultMapInboundClaims = false;
 
-// Server-side auth: Cookies + OIDC against Duende demo
 builder.Services.AddAuthentication(options =>
 {
     options.DefaultScheme = CookieAuthenticationDefaults.AuthenticationScheme;
@@ -47,19 +46,18 @@ builder.Services.AddAuthentication(options =>
 {
     options.Authority = "https://demo.duendesoftware.com";
     options.ClientId = "interactive.confidential";
-    options.ClientSecret = "secret";           // demo client
+    options.ClientSecret = "secret";
     options.ResponseType = "code";
 
-    options.SaveTokens = true;                 // keep tokens in auth session
+    options.SaveTokens = true;    
     options.GetClaimsFromUserInfoEndpoint = true;
     options.MapInboundClaims = false;
 
-    // Ask for an access token for your API and a refresh token
     options.Scope.Clear();
     options.Scope.Add("openid");
     options.Scope.Add("profile");
     options.Scope.Add("api");
-    options.Scope.Add("offline_access");       // enables silent refresh
+    options.Scope.Add("offline_access");
 
     options.TokenValidationParameters = new TokenValidationParameters
     {

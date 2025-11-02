@@ -46,8 +46,6 @@
     <button type="submit">Save</button>
 </EditForm>
 
-<pre>@JsonSerializer.Serialize(_customer, new JsonSerializerOptions { WriteIndented = true })</pre>
-
 @if (!string.IsNullOrWhiteSpace(_status))
 {
     <p>@_status</p>
@@ -71,7 +69,6 @@
 
             _status = $"Saved. New Id: {created.Id}";
 
-            // Clear the form correctly: replace model AND edit context, and re-key the form
             _customer = new();
             _editContext = new EditContext(_customer);
         }

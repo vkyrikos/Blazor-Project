@@ -54,11 +54,6 @@ else if (_customer is not null)
             <a href="/customers" style="align-self:center; margin-left:.5rem;">Back</a>
         </div>
     </div>
-
-    <details style="margin-top: 1rem;">
-        <summary>Raw JSON</summary>
-        <pre>@JsonSerializer.Serialize(_customer, new JsonSerializerOptions { WriteIndented = true })</pre>
-    </details>
 }
 else
 {
